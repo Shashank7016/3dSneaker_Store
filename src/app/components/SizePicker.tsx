@@ -1,6 +1,11 @@
 const sizeOptions = ['7', '8', '9', '10', '11']
 
-export function SizePicker({ size, onChange }) {
+interface SizePickerProps {
+  size: string;
+  onChange: (size: string) => void;
+}
+
+export function SizePicker({ size, onChange }: SizePickerProps) {
   return (
     <div>
       <h3 className="text-lg font-semibold mb-2">Choose Size</h3>

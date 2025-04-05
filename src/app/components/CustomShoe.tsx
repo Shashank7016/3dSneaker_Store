@@ -19,10 +19,12 @@ const defaultColors = {
   patch: '#ffffff',
 }
 
+type ColorPart = keyof typeof defaultColors;
+
 export default function CustomShoe() {
   const [isCustomizing, setIsCustomizing] = useState(false)
   const [colors, setColors] = useState(defaultColors)
-  const [selectedPart, setSelectedPart] = useState<string | null>(null)
+  const [selectedPart, setSelectedPart] = useState<ColorPart | null>(null)
   const [size, setSize] = useState('9')
   const [isRotating, setIsRotating] = useState(false)
   const [isCustomView, setIsCustomView] = useState(true)
@@ -111,7 +113,7 @@ export default function CustomShoe() {
                       <button
                         type="button"
                         key={part}
-                        onClick={() => setSelectedPart(part)}
+                        onClick={() => setSelectedPart(part as ColorPart)}
                         className={`px-3 py-2 rounded ${selectedPart === part ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'} hover:bg-blue-500 hover:text-white transition-colors duration-300`}
                       >
                         {part}

@@ -4,6 +4,15 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Environment } from '@react-three/drei';
 import { ShoeModel } from './ShoeModel';
 import CustomShoe from './CustomShoe';
+
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  description: string;
+  isNew?: boolean;
+}
+
 const shoeProducts = [
   {
     id: 1,
@@ -64,7 +73,7 @@ const shoeProducts = [
   }
 ];
 
-const ShoeCard = ({ product }) => {
+const ShoeCard = ({ product }: { product: Product }) => {
   const [isHovered, setIsHovered] = React.useState(false);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
 
@@ -89,7 +98,16 @@ const ShoeCard = ({ product }) => {
               <ambientLight intensity={0.5} />
               <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
               <ShoeModel 
-                colors={{}} 
+                colors={{
+                  laces: '#ffffff',
+                  mesh: '#ffffff',
+                  caps: '#ffffff',
+                  inner: '#ffffff',
+                  sole: '#ffffff',
+                  stripes: '#ffffff',
+                  band: '#ffffff',
+                  patch: '#ffffff',
+                }} 
                 size="9" 
                 isRotating={isHovered}
                 isCustomView={true}

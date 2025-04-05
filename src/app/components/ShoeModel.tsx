@@ -4,40 +4,60 @@ import { useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 
-export function ShoeModel({ colors, size, isRotating, isCustomView }) {
+interface ShoeModelProps {
+  colors: {
+    laces: string;
+    mesh: string;
+    caps: string;
+    inner: string;
+    sole: string;
+    stripes: string;
+    band: string;
+    patch: string;
+  };
+  size: string;
+  isRotating: boolean;
+  isCustomView: boolean;
+}
+
+export function ShoeModel({ colors, size, isRotating, isCustomView }: ShoeModelProps) {
   const { scene } = useGLTF('/shoe-draco.glb')
-  const mesh = useRef()
-  const originalMaterials = useRef({})
+  const mesh = useRef<THREE.Object3D>(null)
+  const originalMaterials = useRef<{ [key: string]: THREE.Material }>({})
 
   useFrame((state, delta) => {
     if (mesh.current && isRotating) {
-      mesh.current.rotation.y += delta * 0.5
+      (mesh.current as THREE.Mesh).rotation.y += delta * 0.5
     }
   })
 
   useEffect(() => {
     scene.traverse((child) => {
-      if (child.isMesh) {
-        child.castShadow = true
-        child.receiveShadow = true
-        if (!originalMaterials.current[child.name]) {
-          originalMaterials.current[child.name] = child.material.clone()
+      if ((child as THREE.Mesh).isMesh) {
+        const meshChild = child as THREE.Mesh;
+        meshChild.castShadow = true
+        meshChild.receiveShadow = true
+        if (!originalMaterials.current[meshChild.name]) {
+          const material = Array.isArray(meshChild.material) ? meshChild.material[0] : meshChild.material;
+          originalMaterials.current[meshChild.name] = material.clone();
         }
-        // Changed the condition here - apply custom colors when NOT in custom view
         if (!isCustomView) {
-          switch(child.name) {
-            case 'shoe': child.material.color.set(colors.laces); break;
-            case 'shoe_1': child.material.color.set(colors.mesh); break;
-            case 'shoe_2': child.material.color.set(colors.caps); break;
-            case 'shoe_3': child.material.color.set(colors.inner); break;
-            case 'shoe_4': child.material.color.set(colors.sole); break;
-            case 'shoe_5': child.material.color.set(colors.stripes); break;
-            case 'shoe_6': child.material.color.set(colors.band); break;
-            case 'shoe_7': child.material.color.set(colors.patch); break;
+          const material = Array.isArray(meshChild.material) ? meshChild.material[0] : meshChild.material;
+          if (material instanceof THREE.MeshStandardMaterial) {
+            switch(meshChild.name) {
+              case 'shoe': material.color.set(colors.laces); break;
+              case 'shoe_1': material.color.set(colors.mesh); break;
+              case 'shoe_2': material.color.set(colors.caps); break;
+              case 'shoe_3': material.color.set(colors.inner); break;
+              case 'shoe_4': material.color.set(colors.sole); break;
+              case 'shoe_5': material.color.set(colors.stripes); break;
+              case 'shoe_6': material.color.set(colors.band); break;
+              case 'shoe_7': material.color.set(colors.patch); break;
+            }
           }
         } else {
-          // In custom view, reset to original materials
-          child.material = originalMaterials.current[child.name].clone()
+          const material = Array.isArray(meshChild.material) ? meshChild.material[0] : meshChild.material;
+          material.copy(originalMaterials.current[meshChild.name]);
         }
       }
     })

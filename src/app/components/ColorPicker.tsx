@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const colorNames = {
+const colorNames: { [key: string]: string } = {
   '#FF0000': 'Red',
   '#00FF00': 'Green',
   '#0000FF': 'Blue',
@@ -28,7 +28,12 @@ function getColorName(hex: string): string {
   return colorNames[normalizedHex] || 'Custom'
 }
 
-export function ColorPicker({ color, onChange }) {
+interface ColorPickerProps {
+  color: string;
+  onChange: (color: string) => void;
+}
+
+export function ColorPicker({ color, onChange }: ColorPickerProps) {
   const [colorName, setColorName] = useState('')
 
   useEffect(() => {
