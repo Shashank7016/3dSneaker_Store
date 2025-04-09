@@ -1,5 +1,5 @@
 // Placeholder for CartDrawer component
-import React from "react";
+import type React from "react";
 
 // Assuming interfaces are defined elsewhere or passed as generics if needed
 interface Product {
