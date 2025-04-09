@@ -1,14 +1,7 @@
 "use client";
 import React from "react";
-import Image from "next/image";
-import {
-  OrbitControls,
-  PerspectiveCamera,
-  Environment,
-} from "@react-three/drei";
-import { ShoeModel } from "./ShoeModel";
-import CustomShoe from "./CustomShoe";
-import Scene3D from "./Scene3D";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 // --- Define Interfaces Locally (Move to types file later) ---
 interface Product {
@@ -39,7 +32,8 @@ interface MaterialPropertiesDict {
 interface CartItem extends Product {
   selectedSize: string;
   selectedMaterials: MaterialPropertiesDict;
-  cartItemId: string; // Ensure this is defined
+  cartItemId: string;
+  isCustomized: boolean;
 }
 // ------------------------------------------------------------
 
@@ -133,15 +127,16 @@ const defaultMaterialProps: MaterialPropertiesDict = {
   patch: { color: "#ffffff", roughness: 0.5, metalness: 0.2 },
 };
 
-type ShoePart = keyof typeof defaultMaterialProps;
+// Type definition for shoe parts
+type ShoePart = keyof typeof defaultMaterialProps; // Used in CustomShoe component
 
 // --- ShoeCard Component (Inline Definition for now) ---
 const ShoeCard = ({
   product,
-  onCustomizeClick,
+  onQuickAddClick,
 }: {
   product: Product;
-  onCustomizeClick: (product: Product) => void;
+  onQuickAddClick: (product: Product) => void;
 }) => {
   const [isHovered, setIsHovered] = React.useState(false);
   const imageUrl = React.useMemo(() => {
@@ -198,13 +193,17 @@ const ShoeCard = ({
         </div>
         <p className="text-sm text-gray-600 mb-4">{product.description}</p>
         <div className="flex justify-between items-center">
-          <button
-            onClick={() => onCustomizeClick(product)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300"
+          <Link
+            href={`/customize/${product.id}`}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300 text-center"
           >
             Customize
-          </button>
-          <button className="px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors duration-300">
+          </Link>
+          <button
+            type="button"
+            onClick={() => onQuickAddClick(product)}
+            className="px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors duration-300"
+          >
             Quick Add
           </button>
         </div>
@@ -213,49 +212,68 @@ const ShoeCard = ({
   );
 };
 
+// Export for use in other components
+export { shoeProducts, defaultMaterialProps };
+
 // --- Main ShoeStore Component ---
 const ShoeStore = () => {
+  const router = useRouter();
   const [sortOption, setSortOption] = React.useState<string>("");
   const [filterType, setFilterType] = React.useState<string>("");
   const [cart, setCart] = React.useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = React.useState(false);
-  const [editingItem, setEditingItem] = React.useState<
-    Product | CartItem | null
-  >(null);
+  // We no longer need editingItem state as we're using routes
+  const [showQuickAddNotification, setShowQuickAddNotification] = React.useState(false);
+
+  // Load cart from localStorage on component mount
+  React.useEffect(() => {
+    const savedCart = localStorage.getItem('shoeCart');
+    if (savedCart) {
+      try {
+        setCart(JSON.parse(savedCart));
+      } catch (e) {
+        console.error('Error loading cart from localStorage:', e);
+      }
+    }
+  }, []);
+
+  // Calculate cart total using useMemo for performance
+  const cartTotal = React.useMemo(() => {
+    return cart.reduce((total, item) => total + item.price, 0).toFixed(2);
+  }, [cart]);
 
   // --- Cart Functions ---
-  const addToCart = (item: CartItem) => {
-    setCart((prev) => [...prev, item]);
-    console.log("Added to cart:", item);
+  const quickAddToCart = (product: Product) => {
+    // Create a standard cart item with default settings
+    const newItem: CartItem = {
+      ...product,
+      selectedSize: "9", // Default size
+      selectedMaterials: { ...defaultMaterialProps },
+      cartItemId: `${product.id}-${Date.now()}`,
+      isCustomized: false, // Mark as not customized
+    };
+    const newCart = [...cart, newItem];
+    setCart(newCart);
+    // Save to localStorage
+    localStorage.setItem('shoeCart', JSON.stringify(newCart));
+    // Show notification
+    setShowQuickAddNotification(true);
+    setTimeout(() => setShowQuickAddNotification(false), 2000);
   };
 
   const removeFromCart = (cartItemId: string) => {
-    setCart((prev) => prev.filter((item) => item.cartItemId !== cartItemId));
-  };
-
-  const updateCartItem = (updatedItem: CartItem) => {
-    setCart((prev) =>
-      prev.map((item) =>
-        item.cartItemId === updatedItem.cartItemId ? updatedItem : item
-      )
-    );
+    const newCart = cart.filter((item) => item.cartItemId !== cartItemId);
+    setCart(newCart);
+    // Update localStorage
+    localStorage.setItem('shoeCart', JSON.stringify(newCart));
   };
   // --------------------
 
-  // Function to open customizer for a NEW product
-  const handleCustomizeNew = (productToCustomize: Product) => {
-    setEditingItem(productToCustomize);
-  };
-
   // Function to open customizer for an EXISTING cart item
   const handleEditCartItem = (cartItemToEdit: CartItem) => {
-    setEditingItem(cartItemToEdit);
     setIsCartOpen(false); // Close cart drawer when editing
-  };
-
-  // Function to close the customizer
-  const handleCloseCustomizer = () => {
-    setEditingItem(null);
+    // Navigate to the customize page with the product ID
+    router.push(`/customize/${cartItemToEdit.id}`);
   };
 
   // Apply sorting and filtering to products
@@ -287,14 +305,20 @@ const ShoeStore = () => {
           <h1 className="text-3xl font-bold text-gray-900">
             Custom Shoe Collection
           </h1>
-          {/* Placeholder for CartIcon */}
-          <button onClick={() => setIsCartOpen(true)} className="relative p-2">
+          {/* Cart Icon with Badge */}
+          <button
+            type="button"
+            onClick={() => setIsCartOpen(true)}
+            className="relative p-2 text-gray-600 hover:text-gray-900 transition-colors"
+            aria-label="Open cart"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-gray-600"
+              className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"
@@ -348,6 +372,7 @@ const ShoeStore = () => {
                 No shoes match your filter criteria.
               </p>
               <button
+                type="button"
                 onClick={() => {
                   setFilterType("");
                   setSortOption("");
@@ -363,7 +388,7 @@ const ShoeStore = () => {
                 <ShoeCard
                   key={product.id}
                   product={product}
-                  onCustomizeClick={handleCustomizeNew}
+                  onQuickAddClick={quickAddToCart}
                 />
               ))}
             </div>
@@ -371,83 +396,159 @@ const ShoeStore = () => {
         </div>
       </main>
 
-      {/* Placeholder for CartDrawer */}
+      {/* Cart drawer with scrollable content */}
       {isCartOpen && (
-        <div className="fixed inset-y-0 right-0 w-96 max-w-full bg-white shadow-xl z-30 p-6 transform transition ease-in-out duration-300 translate-x-0">
-          <div className="flex justify-between items-center border-b pb-4 mb-4">
+        <div className="fixed inset-y-0 right-0 w-96 max-w-full bg-white shadow-xl z-30 flex flex-col transform transition ease-in-out duration-300 translate-x-0">
+          <div className="flex justify-between items-center border-b px-6 py-4">
             <h2 className="text-xl font-semibold">Your Cart</h2>
-            <button onClick={() => setIsCartOpen(false)}>&times;</button>
+            <button
+              type="button"
+              onClick={() => setIsCartOpen(false)}
+              className="text-gray-500 hover:text-gray-700"
+              aria-label="Close cart"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
           </div>
-          {cart.length === 0 ? (
-            <p>Your cart is empty.</p>
-          ) : (
-            <ul className="space-y-4">
-              {cart.map((item) => (
-                <li
-                  key={item.cartItemId}
-                  className="flex space-x-4 border-b pb-4"
+
+          {/* Scrollable content */}
+          <div className="flex-grow overflow-y-auto px-6 py-4">
+            {cart.length === 0 ? (
+              <div className="flex flex-col items-center justify-center h-full text-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-16 w-16 text-gray-300 mb-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
                 >
-                  {/* Basic cart item display - enhance later */}
-                  <img
-                    src={
-                      item.url ||
-                      `https://pixabay.com/get/g${(item.id % 7) + 1}_1280.jpg`
-                    }
-                    alt={item.name}
-                    className="w-16 h-16 object-cover rounded"
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
                   />
-                  <div className="flex-grow">
-                    <p className="font-medium">{item.name}</p>
-                    <p className="text-sm text-gray-600">
-                      Size: {item.selectedSize}
-                    </p>
-                    <p className="text-sm font-semibold">${item.price}</p>
-                  </div>
-                  <div className="flex flex-col space-y-1">
-                    <button
-                      onClick={() => handleEditCartItem(item)}
-                      className="text-xs text-blue-600 hover:underline"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => removeFromCart(item.cartItemId)}
-                      className="text-xs text-red-600 hover:underline"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
+                </svg>
+                <p className="text-gray-500 mb-4">Your cart is empty</p>
+                <button
+                  type="button"
+                  onClick={() => setIsCartOpen(false)}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Continue Shopping
+                </button>
+              </div>
+            ) : (
+              <ul className="space-y-4">
+                {cart.map((item) => (
+                  <li
+                    key={item.cartItemId}
+                    className="flex space-x-4 border-b pb-4"
+                  >
+                    <img
+                      src={
+                        item.url ||
+                        `https://pixabay.com/get/g${(item.id % 7) + 1}_1280.jpg`
+                      }
+                      alt={item.name}
+                      className="w-16 h-16 object-cover rounded"
+                    />
+                    <div className="flex-grow">
+                      <div className="flex items-start">
+                        <p className="font-medium">{item.name}</p>
+                        {item.isCustomized && (
+                          <span className="ml-2 px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded-full">
+                            Customized
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-sm text-gray-600">
+                        Size: {item.selectedSize}
+                      </p>
+                      <p className="text-sm font-semibold">${item.price}</p>
+                    </div>
+                    <div className="flex flex-col space-y-1">
+                      <button
+                        type="button"
+                        onClick={() => handleEditCartItem(item)}
+                        className="text-xs text-blue-600 hover:underline"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => removeFromCart(item.cartItemId)}
+                        className="text-xs text-red-600 hover:underline"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          {/* Cart footer with total price */}
+          <div className="border-t p-6 bg-gray-50">
+            <div className="flex justify-between items-center mb-4">
+              <span className="text-gray-600">Total:</span>
+              <span className="text-xl font-bold">${cartTotal}</span>
+            </div>
+            <button
+              type="button"
+              disabled={cart.length === 0}
+              className={`w-full py-3 rounded-lg font-semibold ${
+                cart.length === 0
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-blue-600 text-white hover:bg-blue-700"
+              } transition-colors`}
+            >
+              Checkout
+            </button>
+          </div>
         </div>
       )}
+
       {/* Overlay when cart is open */}
       {isCartOpen && (
         <div
           className="fixed inset-0 bg-black/30 z-20"
           onClick={() => setIsCartOpen(false)}
-        ></div>
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') setIsCartOpen(false);
+          }}
+          aria-label="Close cart overlay"
+        />
       )}
 
-      {/* Customizer Overlay */}
-      {editingItem && (
-        <div className="fixed inset-0 z-50 bg-white overflow-auto">
-          <CustomShoe
-            key={
-              (editingItem as CartItem).cartItemId ||
-              (editingItem as Product).id
-            }
-            product={editingItem} // Use 'product' prop name
-            onClose={handleCloseCustomizer}
-            onAddToCart={addToCart}
-            onUpdateCart={updateCartItem}
-          />
+      {/* Quick add notification */}
+      {showQuickAddNotification && (
+        <div className="fixed bottom-4 right-4 bg-green-600 text-white py-2 px-4 rounded-lg shadow-lg z-50 animate-fade-in-out">
+          Item added to cart!
         </div>
       )}
+
+      {/* We no longer need the Customizer Overlay as it's now a separate route */}
     </div>
   );
 };
-
 export default ShoeStore;
+

@@ -50,11 +50,17 @@ export function ShoeModel({ colors, size, isRotating }: ShoeModelProps) {
   const mesh = useRef<THREE.Object3D>(null);
 
   useFrame((state, delta) => {
-    // Add log to check if useFrame is running and the state of isRotating/mesh.current
-    // console.log(`useFrame: isRotating=${isRotating}, mesh.current=${!!mesh.current}`);
+    // Only rotate if isRotating is true
     if (mesh.current && isRotating) {
-      // Ensure mesh.current is treated as Object3D for rotation
-      mesh.current.rotation.y += delta * 0.5;
+      // Smooth rotation around the Y axis for a natural spinning effect
+      mesh.current.rotation.y += delta * 0.5; // Adjust speed by changing multiplier
+      
+      // Add a subtle bobbing movement when rotating
+      const time = state.clock.getElapsedTime();
+      mesh.current.position.y = Math.sin(time * 0.5) * 0.05; // Subtle up and down movement
+    } else if (mesh.current && !isRotating) {
+      // When not rotating, gradually reset any position offset
+      mesh.current.position.y = mesh.current.position.y * 0.95; // Gradually return to zero
     }
   });
 

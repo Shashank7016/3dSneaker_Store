@@ -47,6 +47,7 @@ interface CartItem extends Product {
   selectedSize: string;
   selectedMaterials: MaterialPropertiesDict;
   cartItemId: string;
+  isCustomized: boolean;
 }
 
 // Define default properties using MaterialPropertiesDict structure
@@ -89,7 +90,7 @@ export default function CustomShoe({
   const [size, setSize] = useState<string>(initialSize);
   const [isRotating, setIsRotating] = useState(false);
   const [showControls, setShowControls] = useState(false);
-  const [cart, setCart] = useState<CartItem[]>([]); // Keep local cart state for now
+  // We no longer need local cart state as it's managed in the parent component
   const [showAddedMessage, setShowAddedMessage] = useState(false);
   const [showUpdatedMessage, setShowUpdatedMessage] = useState(false);
 
@@ -101,6 +102,22 @@ export default function CustomShoe({
     setSize((product as CartItem).selectedSize || "9");
     setSelectedPart(null); // Reset selected part when item changes
   }, [product]);
+
+  // Add keyboard event listener for rotation (press 'R' to toggle)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key.toLowerCase() === 'r') {
+        setIsRotating(prev => !prev);
+      }
+      // Add escape key to close customizer if onClose is provided
+      if (e.key === 'Escape' && onClose) {
+        onClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   // Show controls panel after a small delay
   useEffect(() => {
@@ -138,11 +155,12 @@ export default function CustomShoe({
         ...(product as CartItem), // Spread existing cart item data
         selectedSize: size,
         selectedMaterials: { ...materialProps }, // Use current materials
+        isCustomized: true, // Mark as customized
       };
       onUpdateCart(updatedItem);
       console.log("Updated Cart Item:", updatedItem);
       setShowUpdatedMessage(true);
-      setTimeout(() => setShowUpdatedMessage(false), 2000);
+      // The parent component will handle navigation after the timeout
     } else {
       // --- Add new item ---
       const newItem: CartItem = {
@@ -150,11 +168,12 @@ export default function CustomShoe({
         selectedSize: size,
         selectedMaterials: { ...materialProps },
         cartItemId: `${product.id}-${Date.now()}`,
+        isCustomized: true, // Mark as customized
       };
       onAddToCart(newItem);
       console.log("Added new item to Cart:", newItem);
       setShowAddedMessage(true);
-      setTimeout(() => setShowAddedMessage(false), 2000);
+      // The parent component will handle navigation after the timeout
     }
   };
 
@@ -167,8 +186,11 @@ export default function CustomShoe({
         </h2>
         {onClose && (
           <button
+            type="button"
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 transition-colors"
+            aria-label="Return to store"
+            title="Return to store (or press ESC)"
           >
             <span className="sr-only">Close</span>
             <svg
@@ -176,6 +198,7 @@ export default function CustomShoe({
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"
@@ -189,7 +212,30 @@ export default function CustomShoe({
       </div>
 
       {/* Fullscreen 3D canvas */}
-      <div className="absolute inset-0 pt-16">
+      <div className={`absolute inset-0 pt-16 ${isRotating ? 'rotation-active' : ''}`}>
+        <style jsx>{`
+          .rotation-active::after {
+            content: '';
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.6), transparent);
+            border-radius: 2px;
+            opacity: ${isRotating ? 0.8 : 0};
+            transition: opacity 0.3s ease;
+          }
+        `}</style>
+
+        {/* First-time user tip - shows only when not rotating */}
+        {!isRotating && (
+          <div className="absolute bottom-20 left-4 bg-black/70 text-white px-3 py-2 rounded-lg text-sm max-w-xs animate-fade-in-out">
+            <p>💡 Tip: Click "Start Rotation" to view the shoe from all angles</p>
+          </div>
+        )}
+
         <Scene3D
           className="h-full w-full"
           fallback={
@@ -216,6 +262,8 @@ export default function CustomShoe({
             enableZoom={true}
             minPolarAngle={Math.PI / 4}
             maxPolarAngle={Math.PI / 2}
+            autoRotate={isRotating}
+            autoRotateSpeed={4}
           />
           <Environment preset="studio" />
         </Scene3D>
@@ -225,10 +273,30 @@ export default function CustomShoe({
       <div className="absolute bottom-4 left-4 z-10 space-x-2">
         <button
           type="button"
-          onClick={() => setIsRotating((prev) => !prev)}
-          className="px-4 py-2 bg-white/90 backdrop-blur-sm text-gray-800 rounded-full shadow-lg hover:bg-white transition-colors duration-300"
+          onClick={() => setIsRotating(!isRotating)}
+          className="px-4 py-2 bg-white/90 backdrop-blur-sm text-gray-800 rounded-full shadow-lg hover:bg-white transition-colors duration-300 flex items-center gap-2 group relative"
+          aria-label={isRotating ? "Stop rotation" : "Start rotation"}
+          title={`${isRotating ? "Stop" : "Start"} rotation (or press 'R' key)`}
         >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className={`h-5 w-5 ${isRotating ? 'animate-spin' : ''}`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+            />
+          </svg>
           {isRotating ? "Stop Rotation" : "Start Rotation"}
+          <span className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+            Press 'R' key to toggle rotation
+          </span>
         </button>
       </div>
 
@@ -299,10 +367,15 @@ export default function CustomShoe({
                         handleMaterialPropChange(
                           selectedPart,
                           "roughness",
-                          parseFloat(e.target.value)
+                          Number.parseFloat(e.target.value)
                         )
                       }
-                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600 mt-2"
+                      style={{
+                        background: 'linear-gradient(to right, #3b82f6, #dbeafe)',
+                        height: '8px',
+                        borderRadius: '4px'
+                      }}
                     />
                   </div>
 
@@ -326,10 +399,15 @@ export default function CustomShoe({
                         handleMaterialPropChange(
                           selectedPart,
                           "metalness",
-                          parseFloat(e.target.value)
+                          Number.parseFloat(e.target.value)
                         )
                       }
-                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600 mt-2"
+                      style={{
+                        background: 'linear-gradient(to right, #9ca3af, #e5e7eb)',
+                        height: '8px',
+                        borderRadius: '4px'
+                      }}
                     />
                   </div>
                 </div>
@@ -373,6 +451,7 @@ export default function CustomShoe({
       {/* Show controls button (when hidden) */}
       {!showControls && (
         <button
+          type="button"
           onClick={() => setShowControls(true)}
           className="absolute top-1/2 right-0 -translate-y-1/2 bg-blue-600 text-white px-3 py-6 rounded-l-full shadow-lg hover:bg-blue-700 transition-colors"
         >
@@ -382,6 +461,7 @@ export default function CustomShoe({
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
+            aria-hidden="true"
           >
             <path
               strokeLinecap="round"
