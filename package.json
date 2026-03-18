@@ -13,6 +13,7 @@
     "@react-three/drei": "^9.115.0",
     "@react-three/fiber": "^8.17.10",
     "color-name-list": "^10.28.1",
+    "lottie-react": "^2.4.1",
     "nearest-color": "^0.4.4",
     "next": "14.2.7",
     "react": "18.3.1",

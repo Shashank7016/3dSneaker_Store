@@ -1,57 +1,55 @@
 "use client";
 
-import { ReactNode, useState, useEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
+import { OrbitControls, PerspectiveCamera, Environment } from "@react-three/drei";
+import { ShoeModel } from "./ShoeModel";
+import { MaterialPropertiesDict } from "../types";
 import ErrorBoundary from "./ErrorBoundary";
 
 interface Scene3DProps {
-  children: ReactNode;
-  className?: string;
-  fallback?: ReactNode;
+  materials: MaterialPropertiesDict;
+  size: string;
+  isRotating?: boolean;
 }
 
-export default function Scene3D({
-  children,
-  className = "",
-  fallback,
-}: Scene3DProps) {
-  const [isReady, setIsReady] = useState(false);
-  const mountedRef = useRef(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Set a flag that this component is mounted
-    mountedRef.current = true;
-
-    // Only render the canvas when the component is fully mounted
-    // and the container is available in the DOM
-    const timer = setTimeout(() => {
-      if (mountedRef.current && containerRef.current) {
-        setIsReady(true);
-      }
-    }, 150);
-
-    return () => {
-      // Signal that we're unmounting
-      mountedRef.current = false;
-      clearTimeout(timer);
-      setIsReady(false);
-    };
-  }, []);
-
+export default function Scene3D({ materials, size, isRotating = true }: Scene3DProps) {
   return (
-    <div ref={containerRef} className={`relative ${className}`}>
-      {isReady && (
-        <ErrorBoundary fallback={fallback}>
-          <Canvas
-            frameloop="demand"
-            gl={{ alpha: true, antialias: true, preserveDrawingBuffer: true }}
-            dpr={[1, 2]}
-          >
-            {children}
-          </Canvas>
-        </ErrorBoundary>
-      )}
+    <div className="w-full h-full">
+      <ErrorBoundary>
+        <Canvas
+          camera={{ position: [2, 1, 3], fov: 50 }}
+          gl={{ alpha: true, antialias: true }}
+          dpr={[1, 2]}
+        >
+          <PerspectiveCamera makeDefault position={[2, 1, 3]} fov={50} />
+          <OrbitControls 
+            enablePan={false}
+            enableZoom={true}
+            enableRotate={true}
+            autoRotate={isRotating}
+            autoRotateSpeed={1}
+            minDistance={2}
+            maxDistance={8}
+            minPolarAngle={Math.PI / 6}
+            maxPolarAngle={Math.PI - Math.PI / 6}
+            target={[0, 0, 0]}
+          />
+          
+          {/* Lighting setup for better shoe visibility */}
+          <ambientLight intensity={0.4} />
+          <directionalLight position={[10, 10, 5]} intensity={1} />
+          <directionalLight position={[-10, -10, -5]} intensity={0.5} />
+          <pointLight position={[0, 5, 0]} intensity={0.3} />
+          
+          <ShoeModel 
+            colors={materials} 
+            size={size} 
+            isRotating={isRotating} 
+          />
+          
+          <Environment preset="city" />
+        </Canvas>
+      </ErrorBoundary>
     </div>
   );
 }

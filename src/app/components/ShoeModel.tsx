@@ -3,6 +3,7 @@ import { useRef, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
+import type { MaterialPropertiesDict } from "../types";
 
 // Map internal GLTF mesh names to the user-facing part names used in state
 // **IMPORTANT: Verify these mesh names (`shoe`, `shoe_1`, etc.) against your actual GLTF model!**
@@ -17,133 +18,119 @@ const meshNameToPartMap: Record<string, keyof MaterialPropertiesDict> = {
   shoe_7: "patch",
 };
 
-// Define MaterialProperties within this file too for clarity, or import if defined elsewhere
-interface MaterialProperties {
-  color: string;
-  roughness: number;
-  metalness: number;
-}
-
-// Define a type for the dictionary structure used in state/props
-interface MaterialPropertiesDict {
-  laces: MaterialProperties;
-  mesh: MaterialProperties;
-  caps: MaterialProperties;
-  inner: MaterialProperties;
-  sole: MaterialProperties;
-  stripes: MaterialProperties;
-  band: MaterialProperties;
-  patch: MaterialProperties;
-  // Allow potential other keys from Object.keys iteration if needed
-  [key: string]: MaterialProperties;
-}
-
 interface ShoeModelProps {
-  // Use the more specific dictionary type for the 'colors' prop
   colors: MaterialPropertiesDict;
   size: string;
-  isRotating: boolean;
+  isRotating?: boolean;
 }
 
 export function ShoeModel({ colors, size, isRotating }: ShoeModelProps) {
   const { scene } = useGLTF("/shoe-draco.glb");
-  const mesh = useRef<THREE.Object3D>(null);
+  const mesh = useRef<THREE.Group>(null);
+  const rotationSpeed = useRef(0); // For smooth transition
 
   useFrame((state, delta) => {
-    // Only rotate if isRotating is true
-    if (mesh.current && isRotating) {
-      // Smooth rotation around the Y axis for a natural spinning effect
-      mesh.current.rotation.y += delta * 0.5; // Adjust speed by changing multiplier
+    if (mesh.current) {
+      // Smooth transition for rotation speed
+      const targetSpeed = isRotating ? 0.3 : 0;
+      rotationSpeed.current = THREE.MathUtils.lerp(rotationSpeed.current, targetSpeed, delta * 3);
       
-      // Add a subtle bobbing movement when rotating
-      const time = state.clock.getElapsedTime();
-      mesh.current.position.y = Math.sin(time * 0.5) * 0.05; // Subtle up and down movement
-    } else if (mesh.current && !isRotating) {
-      // When not rotating, gradually reset any position offset
-      mesh.current.position.y = mesh.current.position.y * 0.95; // Gradually return to zero
+      // Apply rotation
+      mesh.current.rotation.y += delta * rotationSpeed.current;
+      
+      // Subtle floating animation (only when rotating)
+      if (isRotating) {
+        const time = state.clock.getElapsedTime();
+        mesh.current.position.y = Math.sin(time * 0.8) * 0.02;
+      } else {
+        // Smoothly return to center position when not rotating
+        mesh.current.position.y = THREE.MathUtils.lerp(mesh.current.position.y, 0, delta * 2);
+      }
     }
   });
 
   useEffect(() => {
-    if (!scene) return; // Guard clause if scene isn't loaded yet
+    if (!scene || !colors) {
+      console.warn("ShoeModel: Scene or colors not available yet");
+      return;
+    }
 
-    console.log("ShoeModel: useEffect triggered. colors prop:", colors);
+    console.log("ShoeModel: Applying materials", colors);
 
     scene.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
         const meshChild = child as THREE.Mesh;
+        const meshName = meshChild.name;
+        
+        console.log(`ShoeModel: Processing mesh: ${meshName}`);
+
+        // Enable shadows
         meshChild.castShadow = true;
         meshChild.receiveShadow = true;
 
-        // Ensure we are working with a MeshStandardMaterial
-        const currentMaterial = (
-          Array.isArray(meshChild.material)
-            ? meshChild.material[0]
-            : meshChild.material
-        ) as THREE.MeshStandardMaterial;
-
-        if (
-          !currentMaterial ||
-          !(currentMaterial instanceof THREE.MeshStandardMaterial)
-        ) {
+        // Map mesh name to part name
+        const partName = meshNameToPartMap[meshName];
+        
+        if (!partName || !colors[partName]) {
+          console.warn(`ShoeModel: No mapping found for mesh: ${meshName}`);
           return;
         }
 
-        // Use the map to find the corresponding part name for this mesh
-        const partName = meshNameToPartMap[meshChild.name];
-        if (!partName) {
-          // Log unmapped meshes to help debugging
-          // console.log(`ShoeModel: Skipping unmapped mesh: ${meshChild.name}`);
-          return;
-        }
-
-        // Get the specific properties for this part using the mapped name
         const partProps = colors[partName];
-
-        if (partProps) {
-          let updated = false;
-          // Apply custom properties if defined for this part
-          // Check if properties actually changed to minimize updates
-          const currentColorHex = `#${currentMaterial.color.getHexString()}`;
-          if (currentColorHex.toLowerCase() !== partProps.color.toLowerCase()) {
-            console.log(
-              `ShoeModel: Updating color for ${partName} (${meshChild.name}) from ${currentColorHex} to ${partProps.color}`
-            );
-            currentMaterial.color.set(partProps.color);
-            updated = true;
-          }
-          if (currentMaterial.roughness !== partProps.roughness) {
-            console.log(
-              `ShoeModel: Updating roughness for ${partName} (${meshChild.name}) from ${currentMaterial.roughness} to ${partProps.roughness}`
-            );
-            currentMaterial.roughness = partProps.roughness;
-            updated = true;
-          }
-          if (currentMaterial.metalness !== partProps.metalness) {
-            console.log(
-              `ShoeModel: Updating metalness for ${partName} (${meshChild.name}) from ${currentMaterial.metalness} to ${partProps.metalness}`
-            );
-            currentMaterial.metalness = partProps.metalness;
-            updated = true;
-          }
-
-          // Only mark for update if something actually changed
-          if (updated) {
-            currentMaterial.needsUpdate = true;
-          }
-        } else {
-          console.warn(
-            `ShoeModel: No properties found for mapped part: ${partName} (Mesh: ${meshChild.name})`
-          );
+        
+        if (!partProps) {
+          console.warn(`ShoeModel: No properties found for part: ${partName}`);
+          return;
         }
+
+        // Ensure the mesh has a material
+        if (!meshChild.material) {
+          console.warn(`ShoeModel: No material found for mesh: ${meshName}`);
+          return;
+        }
+
+        // Handle both single materials and material arrays
+        const materials = Array.isArray(meshChild.material) 
+          ? meshChild.material 
+          : [meshChild.material];
+
+        materials.forEach((material, index) => {
+          if (material instanceof THREE.MeshStandardMaterial) {
+            const currentMaterial = material as THREE.MeshStandardMaterial;
+            
+            console.log(`ShoeModel: Updating material ${index} for ${partName} (${meshName})`);
+            
+            // Apply the properties smoothly
+            currentMaterial.color.set(partProps.color);
+            currentMaterial.roughness = partProps.roughness;
+            currentMaterial.metalness = partProps.metalness;
+            currentMaterial.needsUpdate = true;
+          } else {
+            console.warn(`ShoeModel: Material is not MeshStandardMaterial for ${meshName}[${index}]`);
+          }
+        });
       }
     });
   }, [colors, scene]);
 
   useEffect(() => {
-    const scale = 1 + (Number.parseInt(size) - 9) * 0.05;
+    if (!scene) return;
+    
+    // Scale based on size
+    const scale = 0.8 + (Number.parseInt(size) - 9) * 0.03;
     scene.scale.set(scale, scale, scale);
+    
+    // Position the shoe nicely in view
+    scene.position.set(0, -0.5, 0);
+    scene.rotation.set(0, Math.PI / 6, 0);
   }, [size, scene]);
+
+  if (!scene) {
+    console.warn("ShoeModel: Scene not loaded yet");
+    return null;
+  }
 
   return <primitive object={scene} ref={mesh} />;
 }
+
+useGLTF.preload("/shoe-draco.glb");
