@@ -11,7 +11,7 @@ export const shoeProducts: Product[] = [
     price: 120,
     description: "Our signature running shoe with classic styling and premium comfort",
     isNew: true,
-    url: "https://cdn.pixabay.com/photo/2016/06/03/17/35/shoes-1433925_640.jpg",
+    url: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=640&q=80",
     type: "Running",
   },
   {
@@ -19,7 +19,7 @@ export const shoeProducts: Product[] = [
     name: "Sport Elite",
     price: 140,
     description: "High-performance athletic shoe engineered for champions",
-    url: "https://cdn.pixabay.com/photo/2016/03/27/22/16/fashion-1284496_640.jpg",
+    url: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=640&q=80",
     type: "Running",
   },
   {
@@ -27,7 +27,7 @@ export const shoeProducts: Product[] = [
     name: "Urban Walker",
     price: 110,
     description: "Perfect for city life and casual wear with modern aesthetics",
-    url: "https://cdn.pixabay.com/photo/2014/12/31/11/41/shoes-584850_640.jpg",
+    url: "https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=640&q=80",
     type: "Casual",
   },
   {
@@ -35,7 +35,7 @@ export const shoeProducts: Product[] = [
     name: "Trail Blazer",
     price: 150,
     description: "Designed for outdoor adventures with superior grip and durability",
-    url: "https://cdn.pixabay.com/photo/2021/03/08/12/31/oxford-shoes-6078993_640.jpg",
+    url: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=640&q=80",
     type: "Training",
   },
   {
@@ -44,7 +44,7 @@ export const shoeProducts: Product[] = [
     price: 130,
     description: "Maximum comfort for everyday wear with cloud-like cushioning",
     isNew: true,
-    url: "https://cdn.pixabay.com/photo/2021/03/08/12/06/oxford-shoes-6078951_640.jpg",
+    url: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=640&q=80",
     type: "Casual",
   },
   {
@@ -52,7 +52,7 @@ export const shoeProducts: Product[] = [
     name: "Speed Demon",
     price: 160,
     description: "Built for velocity and performance with aerodynamic design",
-    url: "https://cdn.pixabay.com/photo/2018/12/17/23/39/baby-shoes-3881526_640.jpg",
+    url: "https://images.unsplash.com/photo-1556906781-9a412961c28c?w=640&q=80",
     type: "Running",
   },
   {
@@ -61,7 +61,7 @@ export const shoeProducts: Product[] = [
     price: 125,
     description: "Your go-to training companion for every workout session",
     type: "Training",
-    url: "https://cdn.pixabay.com/photo/2020/06/29/04/33/shoes-5351339_640.jpg",
+    url: "https://images.unsplash.com/photo-1539185441755-769473a23570?w=640&q=80",
   },
   {
     id: 8,
@@ -69,7 +69,7 @@ export const shoeProducts: Product[] = [
     price: 145,
     description: "Where fashion meets function in perfect harmony",
     type: "Casual",
-    url: "https://cdn.pixabay.com/photo/2015/07/02/05/53/shoes-828414_640.jpg",
+    url: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=640&q=80",
   },
   {
     id: 9,
@@ -78,7 +78,7 @@ export const shoeProducts: Product[] = [
     description: "Professional grade athletic shoe for serious athletes",
     isNew: true,
     type: "Training",
-    url: "https://cdn.pixabay.com/photo/2018/11/30/02/11/winter-boots-3846915_640.jpg",
+    url: "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=640&q=80",
   },
 ];
 
@@ -146,7 +146,7 @@ const ShoeCard = ({
       {/* New badge */}
       {product.isNew && (
         <div className="absolute top-3 left-3 z-20">
-          <span className="bg-indigo-500 text-white px-2.5 py-0.5 rounded-md text-[11px] font-semibold uppercase tracking-wider">
+          <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-gray-900 text-[11px] font-bold uppercase tracking-wider rounded-full shadow-sm">
             New
           </span>
         </div>
@@ -199,7 +199,7 @@ const ShoeCard = ({
       <div className="p-5 flex flex-col flex-1">
         <div className="flex justify-between items-start mb-2">
           <div>
-            <h3 className="card-title group-hover:text-indigo-600 transition-colors duration-200">
+            <h3 className="card-title group-hover:text-gray-600 transition-colors duration-200">
               {product.name}
             </h3>
             <span className="inline-block px-2 py-0.5 bg-gray-100 text-gray-500 text-xs rounded-md mt-1.5 font-medium">
@@ -399,7 +399,7 @@ const ShoeStore = () => {
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <div className="relative w-16 h-16 mx-auto">
-            <div className="w-16 h-16 border-[3px] border-gray-200 border-t-indigo-500 rounded-full animate-spin" />
+            <div className="w-16 h-16 border-[3px] border-gray-200 border-t-gray-900 rounded-full animate-spin" />
           </div>
           <p className="mt-6 text-gray-400 text-sm font-normal">Loading your experience...</p>
         </div>
@@ -409,22 +409,18 @@ const ShoeStore = () => {
 
   return (
     <div className="min-h-screen bg-[#fafafa] relative">
-      {/* ===== Sticky Header ===== */}
-      <header className={`sticky top-0 z-50 transition-all duration-300 ${
-        headerScrolled
-          ? "glass border-b border-gray-200/40"
-          : "bg-transparent"
-      }`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+      {/* ===== Sticky Header — floating pill ===== */}
+      <header className="sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+          <div className="flex justify-between items-center h-14 px-5 bg-white/70 backdrop-blur-xl rounded-2xl border border-gray-200/50 shadow-sm shadow-gray-200/20">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2.5 group">
-              <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-lg flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow duration-200">
+              <div className="w-8 h-8 bg-gray-900 rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
                 <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <span className="text-lg font-semibold text-gray-900 tracking-tight">Forma</span>
+              <span className="text-base font-bold text-gray-900 tracking-tight">Forma</span>
             </Link>
 
             {/* Search Bar */}
@@ -435,7 +431,7 @@ const ShoeStore = () => {
                   placeholder="Search shoes..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-800 shadow-sm transition-all duration-200 placeholder:text-gray-400"
+                  className="w-full pl-10 pr-4 py-2 bg-gray-100/80 border-0 rounded-xl text-sm text-gray-800 transition-all duration-200 placeholder:text-gray-400 focus:bg-white focus:ring-1 focus:ring-gray-200"
                 />
                 <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -447,13 +443,13 @@ const ShoeStore = () => {
             <button
               type="button"
               onClick={() => setIsCartOpen(true)}
-              className="relative p-2.5 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+              className="relative p-2.5 rounded-xl hover:bg-gray-100 transition-colors duration-200"
             >
               <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
               {cartStats.itemCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-indigo-500 rounded-full flex items-center justify-center">
+                <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-gray-900 rounded-full flex items-center justify-center">
                   <span className="text-[10px] font-bold text-white">{cartStats.itemCount}</span>
                 </span>
               )}
@@ -463,10 +459,10 @@ const ShoeStore = () => {
       </header>
 
       {/* ===== Category Filter Pills ===== */}
-      <section ref={productsRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-6">
-        <div className="reveal flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <section ref={productsRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6">
+        <div className="reveal flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
           <div>
-            <h2 className="section-heading">Our Collection</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">Our Collection</h2>
             <p className="text-sm text-gray-400 mt-1.5 font-normal">
               {filteredAndSortedProducts.length} shoes available
             </p>
@@ -531,19 +527,19 @@ const ShoeStore = () => {
       </main>
 
       {/* ===== Footer ===== */}
-      <footer className="bg-white border-t border-gray-100 py-5">
+      <footer className="bg-[#fafafa] border-t border-gray-100 py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <Link href="/" className="flex items-center space-x-2.5">
-              <div className="w-7 h-7 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-md flex items-center justify-center">
+              <div className="w-7 h-7 bg-gray-900 rounded-lg flex items-center justify-center">
                 <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <span className="text-base font-semibold text-gray-900">Forma</span>
+              <span className="text-sm font-bold text-gray-900 tracking-tight">Forma</span>
             </Link>
-            <p className="text-sm text-gray-400 font-normal">
-              &copy; 2024 Forma. All rights reserved.
+            <p className="text-xs text-gray-400 font-normal">
+              &copy; 2025 Forma. All rights reserved.
             </p>
           </div>
         </div>
@@ -587,7 +583,7 @@ const ShoeStore = () => {
                   <p className="text-gray-400 text-sm font-normal mb-6">Start adding some shoes!</p>
                   <button
                     onClick={() => setIsCartOpen(false)}
-                    className="btn-premium btn-text text-white px-6 py-2.5 rounded-lg"
+                    className="bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold px-6 py-2.5 rounded-xl transition-colors duration-200"
                   >
                     Browse Collection
                   </button>
@@ -607,7 +603,7 @@ const ShoeStore = () => {
                             <div className="min-w-0">
                               <h4 className="font-semibold text-gray-900 text-sm truncate">{item.name}</h4>
                               {item.isCustomized && (
-                                <span className="inline-block px-2 py-0.5 bg-indigo-100 text-indigo-700 text-[10px] rounded-full mt-0.5 font-medium">
+                                <span className="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-[10px] rounded-full mt-0.5 font-medium">
                                   Customized
                                 </span>
                               )}
@@ -670,7 +666,7 @@ const ShoeStore = () => {
                           <button
                             type="button"
                             onClick={() => handleEditCartItem(item)}
-                            className="mt-2 text-xs text-indigo-500 hover:text-indigo-600 font-medium"
+                            className="mt-2 text-xs text-gray-500 hover:text-gray-900 font-medium"
                           >
                             {item.isCustomized ? 'Edit Design' : 'Customize'}
                           </button>
@@ -695,7 +691,7 @@ const ShoeStore = () => {
                     setIsCartOpen(false);
                     router.push('/checkout');
                   }}
-                  className="w-full btn-premium btn-text text-white py-3 rounded-lg"
+                  className="w-full bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold py-3 rounded-xl transition-colors duration-200"
                 >
                   Checkout
                 </button>
