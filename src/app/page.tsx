@@ -26,27 +26,30 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#fafafa] relative">
       {/* ===== Header ===== */}
-      <header className="sticky top-0 z-50 glass border-b border-gray-200/40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+      <header className="sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+          <div className="flex justify-between items-center h-14 px-5 bg-white/70 backdrop-blur-xl rounded-2xl border border-gray-200/50 shadow-sm shadow-gray-200/20">
+            {/* Logo */}
             <Link href="/" className="flex items-center space-x-2.5 group">
-              <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-lg flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow duration-200">
+              <div className="w-8 h-8 bg-gray-900 rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
                 <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <span className="text-lg font-semibold text-gray-900 tracking-tight">Forma</span>
+              <span className="text-base font-bold text-gray-900 tracking-tight">Forma</span>
             </Link>
 
-            <nav className="hidden md:flex items-center gap-8">
-              <Link href="/store" className="nav-link">Collection</Link>
-              <a href="#features" className="nav-link">Features</a>
-              <a href="#how-it-works" className="nav-link">How It Works</a>
+            {/* Center nav — pill style */}
+            <nav className="hidden md:flex items-center gap-1 bg-gray-100/80 rounded-xl p-1">
+              <Link href="/store" className="nav-pill">Collection</Link>
+              <a href="#features" className="nav-pill">Features</a>
+              <a href="#how-it-works" className="nav-pill">How It Works</a>
             </nav>
 
+            {/* CTA */}
             <Link
               href="/store"
-              className="btn-premium btn-text text-white px-5 py-2 rounded-lg"
+              className="btn-text text-sm text-white bg-gray-900 px-5 py-2 rounded-xl hover:bg-gray-800 transition-colors duration-200"
             >
               Shop Now
             </Link>
