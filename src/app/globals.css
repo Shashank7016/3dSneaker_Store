@@ -211,6 +211,60 @@ h1, h2, h3, h4, h5, h6 {
   animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+/* Hero-specific animations */
+@keyframes heroImageReveal {
+  from { opacity: 0; transform: scale(0.92) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes floatCard {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes slideInFromRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInFromLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.10; transform: scale(1); }
+  50% { opacity: 0.20; transform: scale(1.15); }
+}
+
+.animate-hero-image {
+  animation: heroImageReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
+.animate-float-card {
+  animation: floatCard 4s ease-in-out infinite;
+}
+
+.animate-float-card-slow {
+  animation: floatCard 5s ease-in-out 0.5s infinite;
+}
+
+.animate-slide-in-right {
+  animation: slideInFromRight 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-slide-in-left {
+  animation: slideInFromLeft 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-glow-pulse {
+  animation: glowPulse 5s ease-in-out infinite;
+}
+
+.animate-glow-pulse-delayed {
+  animation: glowPulse 6s ease-in-out 1s infinite;
+}
+
 .animate-slide-in-right {
   animation: slideInRight 0.5s ease-out;
 }

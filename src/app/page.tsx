@@ -55,52 +55,107 @@ export default function Home() {
       </header>
 
       {/* ===== Hero Section ===== */}
-      <section className="relative pt-20 sm:pt-28 pb-28 sm:pb-36 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-indigo-50/40 via-transparent to-transparent" />
-        <div className="absolute top-32 right-[15%] w-64 h-64 bg-violet-200/15 rounded-full blur-3xl" />
-        <div className="absolute bottom-10 left-[8%] w-80 h-80 bg-indigo-200/15 rounded-full blur-3xl" />
+      <section className="relative pt-16 sm:pt-20 pb-20 sm:pb-28 overflow-hidden">
+        {/* Background atmosphere — animated blobs */}
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/30 via-transparent to-rose-50/20" />
+        <div className="absolute top-20 right-[10%] w-96 h-96 bg-violet-200/15 rounded-full blur-3xl animate-glow-pulse" />
+        <div className="absolute bottom-0 left-[5%] w-[500px] h-[500px] bg-indigo-200/15 rounded-full blur-3xl animate-glow-pulse-delayed" />
+        <div className="absolute top-40 left-[30%] w-72 h-72 bg-rose-200/10 rounded-full blur-3xl animate-glow-pulse" />
 
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 tracking-tight animate-fade-in-up leading-[1.1]" style={{ animationDelay: '0.1s' }}>
-            Design shoes that<br />
-            <span className="gradient-text">tell your story</span>
-          </h2>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center min-h-[520px]">
+            {/* Left — Copy */}
+            <div className="max-w-xl">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/70 backdrop-blur-sm rounded-full border border-gray-200/60 mb-8 animate-fade-in-up shadow-sm" style={{ animationDelay: '0.05s' }}>
+                <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+                <span className="text-[11px] font-semibold text-gray-600 uppercase tracking-wider">Now with 3D customization</span>
+              </div>
 
-          <p className="text-base sm:text-lg text-gray-500 mb-10 max-w-xl mx-auto animate-fade-in-up leading-relaxed font-normal" style={{ animationDelay: '0.2s' }}>
-            Every detail, every color, every material — our 3D customization
-            platform lets you create footwear that&apos;s uniquely yours.
-          </p>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 tracking-tight leading-[1.08] mb-6 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+                Design shoes<br />
+                that tell<br />
+                <span className="text-gray-300">your story</span>
+              </h1>
 
-          <div className="flex flex-col sm:flex-row gap-3 justify-center animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-            <Link
-              href="/store"
-              className="btn-premium btn-text text-white px-8 py-3 rounded-lg inline-block text-center"
-            >
-              Browse Collection
-            </Link>
-            <a
-              href="#how-it-works"
-              className="btn-text px-8 py-3 bg-white border border-gray-200 text-gray-700 rounded-lg hover:border-gray-300 hover:bg-gray-50 transition-all duration-200 inline-block text-center"
-            >
-              See How It Works
-            </a>
-          </div>
+              <p className="text-base sm:text-lg text-gray-500 mb-10 max-w-md leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                Every detail, every color, every material — create footwear that&apos;s uniquely yours with our 3D platform.
+              </p>
 
-          {/* Trust indicators */}
-          <div className="flex items-center justify-center gap-6 sm:gap-10 mt-16 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
-            {[
-              { value: "50K+", label: "Happy Customers" },
-              { value: "4.9", label: "Average Rating" },
-              { value: "1M+", label: "Designs Created" },
-            ].map((stat, i) => (
-              <React.Fragment key={i}>
-                {i > 0 && <div className="w-px h-8 bg-gray-200" />}
-                <div className="text-center">
-                  <p className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">{stat.value}</p>
-                  <p className="text-xs text-gray-400 mt-1 font-medium">{stat.label}</p>
+              <div className="flex flex-col sm:flex-row gap-3 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+                <Link
+                  href="/store"
+                  className="btn-premium btn-text text-white px-8 py-3.5 rounded-xl inline-block text-center"
+                >
+                  Browse Collection
+                </Link>
+                <a
+                  href="#how-it-works"
+                  className="btn-text px-8 py-3.5 bg-white border border-gray-200 text-gray-700 rounded-xl hover:border-gray-300 hover:bg-gray-50 transition-all duration-200 inline-block text-center"
+                >
+                  See How It Works
+                </a>
+              </div>
+
+              {/* Trust indicators */}
+              <div className="flex items-center gap-8 mt-14 animate-fade-in-up" style={{ animationDelay: '0.45s' }}>
+                {[
+                  { value: "50K+", label: "Happy Customers" },
+                  { value: "4.9", label: "Average Rating" },
+                  { value: "1M+", label: "Designs Created" },
+                ].map((stat, i) => (
+                  <React.Fragment key={i}>
+                    {i > 0 && <div className="w-px h-8 bg-gray-200" />}
+                    <div>
+                      <p className="text-xl font-bold text-gray-900 tracking-tight">{stat.value}</p>
+                      <p className="text-[11px] text-gray-400 mt-0.5 font-medium">{stat.label}</p>
+                    </div>
+                  </React.Fragment>
+                ))}
+              </div>
+            </div>
+
+            {/* Right — Hero Image */}
+            <div className="relative lg:pl-8">
+              <div className="relative animate-hero-image">
+                {/* Main hero image */}
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-indigo-200/30 group">
+                  <img
+                    src="https://images.unsplash.com/photo-1556906781-9a412961c28c?w=800&q=85"
+                    alt="Custom designed sneakers"
+                    className="w-full h-[400px] sm:h-[480px] object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent" />
                 </div>
-              </React.Fragment>
-            ))}
+
+                {/* Floating stats card — slides in from left + floats */}
+                <div className="absolute -bottom-5 -left-5 sm:-left-8 bg-white/90 backdrop-blur-md rounded-2xl p-4 shadow-xl shadow-gray-200/40 border border-white/60 animate-slide-in-left animate-float-card" style={{ animationDelay: '0.5s' }}>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center">
+                      <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 011-1h1a2 2 0 100-4H7a1 1 0 01-1-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-gray-900">Fully customizable</p>
+                      <p className="text-[11px] text-gray-400">8 parts &middot; Unlimited colors</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Floating color swatch card — slides in from right + floats */}
+                <div className="absolute -top-3 -right-3 sm:-right-6 bg-white/90 backdrop-blur-md rounded-xl p-3 shadow-xl shadow-gray-200/40 border border-white/60 animate-slide-in-right animate-float-card-slow" style={{ animationDelay: '0.6s' }}>
+                  <div className="flex gap-1.5">
+                    {["#6366f1", "#ec4899", "#f59e0b", "#10b981", "#1e1e1e"].map((c, i) => (
+                      <div
+                        key={i}
+                        className="w-6 h-6 rounded-lg hover:scale-125 transition-transform duration-300 cursor-pointer"
+                        style={{ backgroundColor: c, boxShadow: `0 2px 6px ${c}20` }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
