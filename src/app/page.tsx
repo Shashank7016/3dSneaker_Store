@@ -106,55 +106,102 @@ export default function Home() {
       </section>
 
       {/* ===== Featured Shoes Preview ===== */}
-      <section className="py-20 sm:py-24 bg-white border-t border-gray-100">
+      <section className="py-24 sm:py-32 bg-white border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="reveal text-center mb-14">
-            <span className="eyebrow text-indigo-500 mb-3 block">Trending Now</span>
-            <h2 className="section-heading">Popular Picks</h2>
-            <p className="section-subheading mt-4">
-              A taste of what&apos;s waiting for you in our collection
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 stagger-children">
-            {[
-              { name: "Classic Runner", price: 120, type: "Running", img: "https://cdn.pixabay.com/photo/2016/06/03/17/35/shoes-1433925_640.jpg", isNew: true },
-              { name: "Sport Elite", price: 140, type: "Running", img: "https://cdn.pixabay.com/photo/2016/03/27/22/16/fashion-1284496_640.jpg" },
-              { name: "Trail Blazer", price: 150, type: "Training", img: "https://cdn.pixabay.com/photo/2021/03/08/12/31/oxford-shoes-6078993_640.jpg" },
-            ].map((shoe, i) => (
-              <Link href="/store" key={i} className="reveal group relative bg-white rounded-2xl overflow-hidden card-hover border border-gray-100 shadow-sm block">
-                {shoe.isNew && (
-                  <div className="absolute top-3 left-3 z-20">
-                    <span className="bg-indigo-500 text-white px-2.5 py-0.5 rounded-md text-[11px] font-semibold uppercase tracking-wider">New</span>
-                  </div>
-                )}
-                <div className="relative h-56 sm:h-64 bg-gray-50 overflow-hidden">
-                  <img src={shoe.img} alt={shoe.name} className="w-full h-full object-cover img-zoom" loading="lazy" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
-                </div>
-                <div className="p-5">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="card-title group-hover:text-indigo-600 transition-colors duration-200">{shoe.name}</h3>
-                      <span className="inline-block px-2 py-0.5 bg-gray-100 text-gray-500 text-xs rounded-md mt-1.5 font-medium">{shoe.type}</span>
-                    </div>
-                    <span className="text-lg font-bold text-gray-900">${shoe.price}</span>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          <div className="reveal text-center mt-12">
+          {/* Header — left-aligned with CTA */}
+          <div className="reveal flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-14">
+            <div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 rounded-full mb-6">
+                <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-pulse" />
+                <span className="text-[11px] font-semibold text-white uppercase tracking-widest">Trending Now</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight leading-[1.1]">
+                Popular picks
+              </h2>
+            </div>
             <Link
               href="/store"
-              className="inline-flex items-center gap-2 text-indigo-600 font-semibold text-sm hover:text-indigo-700 transition-colors group"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-gray-900 transition-colors group shrink-0"
             >
-              View Full Collection
+              View full collection
               <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 hiw-grid">
+            {[
+              {
+                name: "Classic Runner",
+                price: 120,
+                type: "Running",
+                img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=640&q=80",
+                color: "from-rose-50 to-orange-50",
+                accent: "bg-rose-500",
+                isNew: true,
+              },
+              {
+                name: "Sport Elite",
+                price: 140,
+                type: "Performance",
+                img: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=640&q=80",
+                color: "from-indigo-50 to-blue-50",
+                accent: "bg-indigo-500",
+              },
+              {
+                name: "Trail Blazer",
+                price: 150,
+                type: "Training",
+                img: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=640&q=80",
+                color: "from-emerald-50 to-teal-50",
+                accent: "bg-emerald-500",
+              },
+            ].map((shoe, i) => (
+              <Link href="/store" key={i} className="reveal group relative block" style={{ transitionDelay: `${i * 0.08}s` }}>
+                {/* Image container */}
+                <div className={`relative h-72 sm:h-80 rounded-2xl overflow-hidden bg-gradient-to-br ${shoe.color} mb-5`}>
+                  <img
+                    src={shoe.img}
+                    alt={shoe.name}
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                  {/* Badges */}
+                  {shoe.isNew && (
+                    <div className="absolute top-4 left-4 z-10">
+                      <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-gray-900 text-[11px] font-bold uppercase tracking-wider rounded-full shadow-sm">
+                        New arrival
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Quick view hint */}
+                  <div className="absolute bottom-4 left-4 right-4 z-10 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-400">
+                    <div className="bg-white/90 backdrop-blur-md rounded-xl px-4 py-2.5 flex items-center justify-between shadow-lg">
+                      <span className="text-sm font-semibold text-gray-900">View details</span>
+                      <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Info */}
+                <div className="flex items-start justify-between gap-4 px-1">
+                  <div>
+                    <h3 className="text-base font-bold text-gray-900 tracking-tight group-hover:text-indigo-600 transition-colors duration-200">{shoe.name}</h3>
+                    <div className="flex items-center gap-2 mt-1.5">
+                      <div className={`w-2 h-2 rounded-full ${shoe.accent}`} />
+                      <span className="text-xs text-gray-400 font-medium">{shoe.type}</span>
+                    </div>
+                  </div>
+                  <span className="text-lg font-bold text-gray-900 tabular-nums">${shoe.price}</span>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
