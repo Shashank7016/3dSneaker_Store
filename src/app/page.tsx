@@ -92,7 +92,7 @@ export default function Home() {
                   Browse Collection
                 </Link>
                 <Link
-                  href="/store"
+                  href="/customize/1"
                   className="btn-text px-8 py-3.5 bg-white border border-gray-200 text-gray-700 rounded-xl hover:border-gray-300 hover:bg-gray-50 transition-all duration-200 inline-block text-center w-full sm:w-48"
                 >
                   Start Designing
