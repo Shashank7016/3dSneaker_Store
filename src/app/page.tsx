@@ -172,19 +172,19 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Hero Card — 3D Customization (spans full width on md) */}
-            <div className="reveal-scale md:col-span-2 group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900 via-gray-900 to-indigo-950 p-8 sm:p-10 border border-white/5 bento-card">
-              <div className="absolute top-0 right-0 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl group-hover:bg-indigo-500/20 transition-all duration-700" />
-              <div className="absolute bottom-0 left-1/3 w-56 h-56 bg-violet-500/8 rounded-full blur-3xl group-hover:bg-violet-500/15 transition-all duration-700" />
+            <div className="reveal-scale md:col-span-2 group relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 via-violet-50/80 to-blue-50/60 p-8 sm:p-10 border border-indigo-100/60 bento-card">
+              <div className="absolute top-0 right-0 w-72 h-72 bg-indigo-200/20 rounded-full blur-3xl group-hover:bg-indigo-200/30 transition-all duration-700" />
+              <div className="absolute bottom-0 left-1/3 w-56 h-56 bg-violet-200/15 rounded-full blur-3xl group-hover:bg-violet-200/25 transition-all duration-700" />
 
               <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center gap-8">
                 <div className="flex-1">
-                  <div className="w-11 h-11 bg-indigo-500/15 rounded-xl flex items-center justify-center mb-5 group-hover:bg-indigo-500/25 transition-colors duration-300">
-                    <svg className="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-11 h-11 bg-indigo-100 rounded-xl flex items-center justify-center mb-5 group-hover:bg-indigo-200/70 transition-colors duration-300">
+                    <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 011-1h1a2 2 0 100-4H7a1 1 0 01-1-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
                     </svg>
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 tracking-tight">3D Customization</h3>
-                  <p className="text-gray-400 text-sm sm:text-base leading-relaxed max-w-md">
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 tracking-tight">3D Customization</h3>
+                  <p className="text-gray-500 text-sm sm:text-base leading-relaxed max-w-md">
                     Design every detail in real-time 3D. Change colors, materials, and textures — see your creation come alive from every angle.
                   </p>
                 </div>
@@ -197,19 +197,19 @@ export default function Home() {
                       {["#6366f1", "#ec4899", "#f59e0b", "#10b981", "#8b5cf6"].map((color, i) => (
                         <div
                           key={i}
-                          className="w-8 h-8 rounded-lg shadow-lg cursor-pointer bento-swatch transition-all duration-300 hover:scale-125"
+                          className="w-8 h-8 rounded-lg shadow-md cursor-pointer bento-swatch transition-all duration-300 hover:scale-125"
                           style={{
                             backgroundColor: color,
-                            boxShadow: `0 4px 14px ${color}40`,
+                            boxShadow: `0 4px 14px ${color}30`,
                             animationDelay: `${i * 0.12}s`,
                           }}
                         />
                       ))}
                     </div>
-                    {/* Shoe silhouette that reflects the hover color */}
+                    {/* Shoe silhouette */}
                     <div className="w-40 h-40 sm:w-48 sm:h-48 relative">
-                      <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-violet-500/20 rounded-2xl group-hover:from-indigo-500/30 group-hover:to-violet-500/30 transition-all duration-500" />
-                      <svg className="w-full h-full text-indigo-400/60 group-hover:text-indigo-300/80 transition-colors duration-500 bento-shoe" viewBox="0 0 100 100" fill="currentColor">
+                      <div className="absolute inset-0 bg-gradient-to-br from-indigo-100/60 to-violet-100/60 rounded-2xl group-hover:from-indigo-200/60 group-hover:to-violet-200/60 transition-all duration-500" />
+                      <svg className="w-full h-full text-indigo-400/70 group-hover:text-indigo-500/80 transition-colors duration-500 bento-shoe" viewBox="0 0 100 100" fill="currentColor">
                         <path d="M15 65 C15 55, 25 35, 45 30 C55 27, 65 28, 75 32 C82 35, 88 42, 90 50 L92 58 C92 62, 90 65, 86 66 L14 66 C14 66, 15 65, 15 65Z" opacity="0.6"/>
                         <path d="M10 66 L92 66 C93 66, 94 67, 94 68 L94 72 C94 74, 92 76, 90 76 L8 76 C6 76, 4 74, 4 72 L4 70 C4 68, 6 66, 8 66Z" opacity="0.8"/>
                       </svg>
