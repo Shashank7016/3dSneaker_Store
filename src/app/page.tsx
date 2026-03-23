@@ -87,16 +87,16 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-3 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
                 <Link
                   href="/store"
-                  className="btn-premium btn-text text-white px-8 py-3.5 rounded-xl inline-block text-center"
+                  className="btn-premium btn-text text-white px-8 py-3.5 rounded-xl inline-block text-center w-full sm:w-48"
                 >
                   Browse Collection
                 </Link>
-                <a
-                  href="#how-it-works"
-                  className="btn-text px-8 py-3.5 bg-white border border-gray-200 text-gray-700 rounded-xl hover:border-gray-300 hover:bg-gray-50 transition-all duration-200 inline-block text-center"
+                <Link
+                  href="/store"
+                  className="btn-text px-8 py-3.5 bg-white border border-gray-200 text-gray-700 rounded-xl hover:border-gray-300 hover:bg-gray-50 transition-all duration-200 inline-block text-center w-full sm:w-48"
                 >
-                  See How It Works
-                </a>
+                  Start Designing
+                </Link>
               </div>
 
               {/* Trust indicators */}
@@ -564,14 +564,6 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="reveal text-center mt-16 sm:mt-20">
-            <Link
-              href="/store"
-              className="btn-premium btn-text text-white px-8 py-3.5 rounded-xl inline-block"
-            >
-              Start Designing Now
-            </Link>
-          </div>
         </div>
       </section>
 
