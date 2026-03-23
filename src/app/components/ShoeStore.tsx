@@ -94,8 +94,6 @@ export const defaultMaterialProps: MaterialPropertiesDict = {
   patch: { color: "#ffffff", roughness: 0.5, metalness: 0.2 },
 };
 
-// Available shoe sizes
-const availableSizes = ["6", "6.5", "7", "7.5", "8", "8.5", "9", "9.5", "10", "10.5", "11", "11.5", "12"];
 
 // --- Scroll Reveal Hook ---
 function useScrollReveal() {
@@ -227,20 +225,11 @@ const ShoeStore = () => {
   const [sortOption, setSortOption] = React.useState("");
   const [searchQuery, setSearchQuery] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(true);
-  const [headerScrolled, setHeaderScrolled] = React.useState(false);
   const productsRef = React.useRef<HTMLDivElement>(null);
 
   // Initialize scroll reveal
   useScrollReveal();
 
-  // Track header scroll state
-  useEffect(() => {
-    const handleScroll = () => {
-      setHeaderScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   // Simulate loading
   React.useEffect(() => {
@@ -346,35 +335,6 @@ const ShoeStore = () => {
     localStorage.setItem('shoeCart', JSON.stringify(newCart));
   };
 
-  const updateCartItemSize = (cartItemId: string, newSize: string) => {
-    const item = cart.find(item => item.cartItemId === cartItemId);
-    if (!item || item.isCustomized) return;
-
-    const existingItemIndex = cart.findIndex(cartItem =>
-      cartItem.id === item.id &&
-      cartItem.selectedSize === newSize &&
-      !cartItem.isCustomized &&
-      cartItem.cartItemId !== cartItemId
-    );
-
-    let newCart: CartItem[];
-    if (existingItemIndex >= 0) {
-      newCart = cart.map((cartItem, index) =>
-        index === existingItemIndex
-          ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
-          : cartItem.cartItemId === cartItemId ? null : cartItem
-      ).filter(Boolean) as CartItem[];
-    } else {
-      newCart = cart.map(cartItem =>
-        cartItem.cartItemId === cartItemId
-          ? { ...cartItem, selectedSize: newSize }
-          : cartItem
-      );
-    }
-
-    setCart(newCart);
-    localStorage.setItem('shoeCart', JSON.stringify(newCart));
-  };
 
   const removeFromCart = (cartItemId: string) => {
     const newCart = cart.filter(item => item.cartItemId !== cartItemId);
