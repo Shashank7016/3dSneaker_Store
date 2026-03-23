@@ -159,138 +159,155 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== Features Bento Grid ===== */}
-      <section id="features" className="py-20 sm:py-24 bg-[#fafafa]">
+      {/* ===== Features — Bento Grid ===== */}
+      <section id="features" className="py-24 sm:py-32 bg-[#fafafa] border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="reveal text-center mb-14">
-            <span className="eyebrow text-indigo-500 mb-3 block">Why Us</span>
-            <h2 className="section-heading">Why Forma?</h2>
-            <p className="section-subheading mt-4">
-              Cutting-edge technology meets premium craftsmanship for an experience like no other.
-            </p>
+          <div className="reveal text-center mb-16 sm:mb-20">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 rounded-full mb-6">
+              <div className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse" />
+              <span className="text-[11px] font-semibold text-white uppercase tracking-widest">Why Forma</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight leading-[1.1]">
+              Built different,<br />
+              <span className="text-gray-300">by design</span>
+            </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Hero Card — 3D Customization (spans full width on md) */}
-            <div className="reveal-scale md:col-span-2 group relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 via-violet-50/80 to-blue-50/60 p-8 sm:p-10 border border-indigo-100/60 bento-card">
-              <div className="absolute top-0 right-0 w-72 h-72 bg-indigo-200/20 rounded-full blur-3xl group-hover:bg-indigo-200/30 transition-all duration-700" />
-              <div className="absolute bottom-0 left-1/3 w-56 h-56 bg-violet-200/15 rounded-full blur-3xl group-hover:bg-violet-200/25 transition-all duration-700" />
+          {/* Bento Grid — 1 tall left + 2 stacked right */}
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 bento-features">
+            {/* Card 1 — 3D Customization (tall, spans 3 cols) */}
+            <div className="reveal lg:col-span-3 lg:row-span-2 group relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-50 via-violet-50/60 to-blue-50/40 border border-indigo-100/50 p-8 sm:p-10 min-h-[420px] flex flex-col justify-between bento-card">
+              <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-200/15 rounded-full blur-3xl group-hover:bg-indigo-200/25 transition-all duration-700" />
+              <div className="absolute bottom-0 left-0 w-56 h-56 bg-violet-200/10 rounded-full blur-3xl group-hover:bg-violet-200/20 transition-all duration-700" />
 
-              <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center gap-8">
-                <div className="flex-1">
-                  <div className="w-11 h-11 bg-indigo-100 rounded-xl flex items-center justify-center mb-5 group-hover:bg-indigo-200/70 transition-colors duration-300">
-                    <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 011-1h1a2 2 0 100-4H7a1 1 0 01-1-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 tracking-tight">3D Customization</h3>
-                  <p className="text-gray-500 text-sm sm:text-base leading-relaxed max-w-md">
-                    Design every detail in real-time 3D. Change colors, materials, and textures — see your creation come alive from every angle.
-                  </p>
+              {/* Header */}
+              <div className="relative z-10">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/70 backdrop-blur-sm rounded-full border border-indigo-100/60 mb-4">
+                  <div className="w-2 h-2 bg-indigo-500 rounded-full" />
+                  <span className="text-[11px] font-semibold text-indigo-600 uppercase tracking-wider">Core Feature</span>
                 </div>
+                <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight mb-2">3D Customization</h3>
+                <p className="text-gray-500 text-sm sm:text-base leading-relaxed max-w-sm">
+                  Design every detail in real-time. Change colors, materials, and textures — see it come alive from every angle.
+                </p>
+              </div>
 
-                {/* Interactive shoe color preview */}
-                <div className="relative flex-shrink-0 w-full lg:w-auto">
-                  <div className="flex items-center justify-center lg:justify-end gap-3">
-                    {/* Animated color swatches that pulse on hover */}
-                    <div className="flex flex-col gap-2.5">
-                      {["#6366f1", "#ec4899", "#f59e0b", "#10b981", "#8b5cf6"].map((color, i) => (
-                        <div
-                          key={i}
-                          className="w-8 h-8 rounded-lg shadow-md cursor-pointer bento-swatch transition-all duration-300 hover:scale-125"
-                          style={{
-                            backgroundColor: color,
-                            boxShadow: `0 4px 14px ${color}30`,
-                            animationDelay: `${i * 0.12}s`,
-                          }}
-                        />
+              {/* Illustration — floating editor UI */}
+              <div className="relative z-10 mt-6 flex items-end justify-center lg:justify-end">
+                <div className="relative">
+                  {/* Main shoe */}
+                  <svg className="w-56 h-36 sm:w-64 sm:h-40 drop-shadow-lg" viewBox="0 0 260 140" fill="none">
+                    <rect x="18" y="98" rx="9" width="224" height="16" fill="#6366f1" opacity="0.25" />
+                    <rect x="22" y="88" rx="5" width="216" height="14" fill="#818cf8" opacity="0.2" />
+                    <path d="M32 88 C32 70, 48 40, 82 30 C100 24, 124 24, 150 32 C172 38, 192 54, 204 66 L212 78 C214 82, 215 86, 215 88 L32 88Z" fill="#6366f1" opacity="0.4" className="group-hover:opacity-55 transition-opacity duration-500" />
+                    <path d="M32 88 C32 76, 40 56, 60 44 C72 36, 84 32, 90 30 L82 28 C60 32, 42 50, 32 72 Z" fill="#ec4899" opacity="0.3" className="group-hover:opacity-45 transition-opacity duration-500" />
+                    <path d="M198 62 L212 78 C214 82, 215 86, 215 88 L205 88 C205 82, 202 72, 198 62Z" fill="#8b5cf6" opacity="0.35" />
+                    <path d="M60 78 C80 62, 115 52, 168 58 C185 60, 196 66, 202 72" stroke="#10b981" strokeWidth="3.5" fill="none" strokeLinecap="round" opacity="0.45" className="group-hover:opacity-60 transition-opacity duration-500" />
+                    <path d="M78 34 C82 20, 96 10, 118 6 C138 3, 144 8, 142 22 L134 32" fill="#a5b4fc" opacity="0.25" />
+                    <circle cx="96" cy="40" r="3" fill="white" opacity="0.5" />
+                    <circle cx="110" cy="36" r="3" fill="white" opacity="0.5" />
+                    <circle cx="124" cy="34" r="3" fill="white" opacity="0.5" />
+                  </svg>
+
+                  {/* Floating glass panels */}
+                  <div className="absolute -top-4 -left-4 sm:-left-8 bg-white/80 backdrop-blur-md rounded-xl p-3 shadow-lg shadow-indigo-100/40 border border-white/60 group-hover:-translate-y-1 group-hover:-translate-x-1 transition-all duration-500">
+                    <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider block mb-2">Color</span>
+                    <div className="flex gap-1.5">
+                      {["#6366f1", "#ec4899", "#f59e0b", "#10b981"].map((c, i) => (
+                        <div key={i} className={`w-5 h-5 rounded-md ${i === 0 ? "ring-[1.5px] ring-indigo-400 ring-offset-1" : ""}`} style={{ backgroundColor: c }} />
                       ))}
                     </div>
-                    {/* Shoe silhouette */}
-                    <div className="w-40 h-40 sm:w-48 sm:h-48 relative">
-                      <div className="absolute inset-0 bg-gradient-to-br from-indigo-100/60 to-violet-100/60 rounded-2xl group-hover:from-indigo-200/60 group-hover:to-violet-200/60 transition-all duration-500" />
-                      <svg className="w-full h-full text-indigo-400/70 group-hover:text-indigo-500/80 transition-colors duration-500 bento-shoe" viewBox="0 0 100 100" fill="currentColor">
-                        <path d="M15 65 C15 55, 25 35, 45 30 C55 27, 65 28, 75 32 C82 35, 88 42, 90 50 L92 58 C92 62, 90 65, 86 66 L14 66 C14 66, 15 65, 15 65Z" opacity="0.6"/>
-                        <path d="M10 66 L92 66 C93 66, 94 67, 94 68 L94 72 C94 74, 92 76, 90 76 L8 76 C6 76, 4 74, 4 72 L4 70 C4 68, 6 66, 8 66Z" opacity="0.8"/>
-                      </svg>
+                  </div>
+
+                  <div className="absolute -bottom-2 -right-2 sm:-right-6 bg-white/80 backdrop-blur-md rounded-xl p-3 shadow-lg shadow-indigo-100/40 border border-white/60 group-hover:translate-y-1 group-hover:translate-x-1 transition-all duration-500">
+                    <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider block mb-1.5">Material</span>
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-5 rounded bg-gradient-to-r from-amber-600 to-amber-700" />
+                      <span className="text-[11px] font-medium text-gray-600">Leather</span>
                     </div>
+                  </div>
+
+                  <div className="absolute top-6 -right-3 sm:top-4 sm:-right-10 bg-white/80 backdrop-blur-md rounded-lg px-2.5 py-1.5 shadow-md shadow-indigo-100/30 border border-white/60 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-500 delay-100">
+                    <span className="text-[10px] font-semibold text-indigo-500">Swoosh</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Card 2 — Premium Quality */}
-            <div className="reveal-scale group relative overflow-hidden rounded-2xl bg-white p-7 sm:p-8 border border-gray-100 shadow-sm bento-card">
-              <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-amber-50 rounded-full group-hover:scale-150 transition-transform duration-700" />
+            {/* Card 2 — Premium Quality (top right) */}
+            <div className="reveal lg:col-span-2 group relative overflow-hidden rounded-3xl bg-gradient-to-br from-amber-50 via-orange-50/60 to-yellow-50/40 border border-amber-100/50 p-7 sm:p-8 bento-card" style={{ transitionDelay: '0.1s' }}>
+              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-amber-200/15 rounded-full blur-2xl group-hover:bg-amber-200/30 transition-all duration-700" />
 
               <div className="relative z-10">
-                <div className="w-11 h-11 bg-amber-50 rounded-xl flex items-center justify-center mb-5 group-hover:bg-amber-100 transition-colors duration-300">
-                  <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                  </svg>
+                <div className="flex items-center gap-2.5 mb-4">
+                  <div className="w-8 h-8 bg-white/70 backdrop-blur-sm rounded-lg flex items-center justify-center border border-amber-100/60">
+                    <svg className="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-900 tracking-tight">Premium Quality</h3>
                 </div>
-                <h3 className="card-title mb-2">Premium Quality</h3>
-                <p className="card-body text-sm mb-6">
-                  Handcrafted with the finest materials. Each pair goes through rigorous quality checks.
+                <p className="text-sm text-gray-500 leading-relaxed mb-6">
+                  Handcrafted with the finest materials. Each pair through rigorous quality checks.
                 </p>
 
-                {/* Material swatches that fan out on hover */}
-                <div className="flex items-end gap-1.5 h-12">
+                {/* Material tiles */}
+                <div className="grid grid-cols-4 gap-2">
                   {[
-                    { label: "Leather", color: "bg-amber-800" },
-                    { label: "Suede", color: "bg-stone-500" },
-                    { label: "Mesh", color: "bg-gray-300" },
-                    { label: "Canvas", color: "bg-orange-200" },
+                    { label: "Leather", color: "from-amber-700 to-amber-800", text: "text-amber-100" },
+                    { label: "Suede", color: "from-stone-400 to-stone-500", text: "text-stone-100" },
+                    { label: "Mesh", color: "from-gray-200 to-gray-300", text: "text-gray-500" },
+                    { label: "Canvas", color: "from-orange-200 to-orange-300", text: "text-orange-700" },
                   ].map((mat, i) => (
                     <div
                       key={i}
-                      className={`bento-material relative rounded-lg ${mat.color} transition-all duration-300 cursor-pointer`}
-                      style={{
-                        width: '48px',
-                        height: '32px',
-                        transform: `rotate(${-6 + i * 4}deg)`,
-                      }}
-                      title={mat.label}
+                      className={`aspect-square rounded-xl bg-gradient-to-br ${mat.color} shadow-sm flex items-end justify-center pb-2 group-hover:scale-105 group-hover:shadow-md transition-all duration-500 cursor-pointer`}
+                      style={{ transitionDelay: `${i * 60}ms` }}
                     >
-                      <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-medium text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-                        {mat.label}
-                      </span>
+                      <span className={`text-[9px] font-bold uppercase tracking-wider ${mat.text}`}>{mat.label}</span>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
 
-            {/* Card 3 — Fast Delivery */}
-            <div className="reveal-scale group relative overflow-hidden rounded-2xl bg-white p-7 sm:p-8 border border-gray-100 shadow-sm bento-card">
-              <div className="absolute -top-6 -right-6 w-28 h-28 bg-emerald-50 rounded-full group-hover:scale-150 transition-transform duration-700" />
+            {/* Card 3 — Fast Delivery (bottom right) */}
+            <div className="reveal lg:col-span-2 group relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-50 via-teal-50/60 to-green-50/40 border border-emerald-100/50 p-7 sm:p-8 bento-card" style={{ transitionDelay: '0.2s' }}>
+              <div className="absolute -top-6 -right-6 w-32 h-32 bg-emerald-200/15 rounded-full blur-2xl group-hover:bg-emerald-200/30 transition-all duration-700" />
 
               <div className="relative z-10">
-                <div className="w-11 h-11 bg-emerald-50 rounded-xl flex items-center justify-center mb-5 group-hover:bg-emerald-100 transition-colors duration-300">
-                  <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
+                <div className="flex items-center gap-2.5 mb-4">
+                  <div className="w-8 h-8 bg-white/70 backdrop-blur-sm rounded-lg flex items-center justify-center border border-emerald-100/60">
+                    <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-900 tracking-tight">Fast Delivery</h3>
                 </div>
-                <h3 className="card-title mb-2">Fast Delivery</h3>
-                <p className="card-body text-sm mb-6">
-                  From your design to your doorstep in days, without compromising craftsmanship.
+                <p className="text-sm text-gray-500 leading-relaxed mb-5">
+                  From studio to doorstep in days, without compromising craftsmanship.
                 </p>
 
-                {/* Animated delivery tracker */}
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-[11px] font-medium text-gray-400">
-                    <span>Designed</span>
-                    <span>Crafted</span>
-                    <span>Shipped</span>
-                    <span className="text-emerald-500">Delivered</span>
-                  </div>
-                  <div className="relative h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                    <div className="absolute inset-y-0 left-0 bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-full bento-tracker" />
-                  </div>
-                  <div className="flex items-center gap-1.5 mt-1">
-                    <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-                    <span className="text-[11px] text-emerald-500 font-medium">3-5 business days</span>
-                  </div>
+                {/* Delivery timeline — horizontal */}
+                <div className="flex items-center gap-1">
+                  {["Order", "Craft", "Ship", "Arrive"].map((step, i) => (
+                    <React.Fragment key={i}>
+                      <div className="flex flex-col items-center gap-1">
+                        <div className="w-8 h-8 rounded-full bg-emerald-400/90 flex items-center justify-center shadow-sm shadow-emerald-200/50 group-hover:scale-110 transition-all duration-400" style={{ transitionDelay: `${i * 80}ms` }}>
+                          <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                          </svg>
+                        </div>
+                        <span className="text-[9px] font-semibold text-emerald-600 uppercase tracking-wider">{step}</span>
+                      </div>
+                      {i < 3 && <div className="flex-1 h-0.5 bg-emerald-300/50 rounded-full mb-4" />}
+                    </React.Fragment>
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-1.5 mt-4 px-3 py-1.5 bg-white/60 backdrop-blur-sm rounded-full border border-emerald-100/60 w-fit">
+                  <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+                  <span className="text-[11px] text-emerald-600 font-semibold">3–5 business days</span>
                 </div>
               </div>
             </div>
@@ -300,7 +317,7 @@ export default function Home() {
 
       {/* ===== How It Works — Horizontal Steps ===== */}
       <section id="how-it-works" className="py-24 sm:py-32 bg-white relative overflow-hidden border-t border-gray-100">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="reveal text-center mb-16 sm:mb-20">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 rounded-full mb-6">
               <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
