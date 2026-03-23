@@ -46,9 +46,9 @@ export function ColorPicker({ color, onChange }: ColorPickerProps) {
         type="color"
         value={color}
         onChange={(e) => onChange(e.target.value)}
-        className="w-10 h-10 rounded-full overflow-hidden"
+        className="w-10 h-10 rounded-xl overflow-hidden cursor-pointer border border-gray-200 shadow-sm"
       />
-      <span className="text-sm font-medium">
+      <span className="text-sm font-medium text-gray-600">
         {colorName} ({color})
       </span>
     </div>

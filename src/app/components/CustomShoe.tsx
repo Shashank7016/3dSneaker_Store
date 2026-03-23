@@ -4,6 +4,7 @@ import { useState } from "react";
 import {
   useGLTF,
 } from "@react-three/drei";
+import Link from "next/link";
 import { ColorPicker } from "./ColorPicker";
 import { SizePicker } from "./SizePicker";
 import Scene3D from "./Scene3D";
@@ -100,133 +101,133 @@ export default function CustomShoe({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 relative overflow-hidden">
-      {/* Background Elements */}
+    <div className="min-h-screen bg-[#fafafa] relative overflow-hidden">
+      {/* Background atmosphere */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-float" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-blue-300/10 to-purple-300/10 rounded-full blur-3xl animate-pulse-glow" />
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-violet-200/15 rounded-full blur-3xl animate-glow-pulse" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-200/15 rounded-full blur-3xl animate-glow-pulse-delayed" />
+        <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-rose-200/10 rounded-full blur-3xl animate-glow-pulse" />
       </div>
 
-      {/* Header */}
-      <header className="relative z-10 bg-white/80 backdrop-blur-sm border-b border-gray-200/50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-4">
+      {/* Header — floating pill navbar */}
+      <header className="sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+          <div className="flex items-center justify-between h-14 px-5 bg-white/70 backdrop-blur-xl rounded-2xl border border-gray-200/50 shadow-sm shadow-gray-200/20">
+            {/* Left — back + product info */}
+            <div className="flex items-center gap-3">
               <button
                 type="button"
                 onClick={onClose}
-                className="p-2 hover:bg-gray-100 rounded-xl transition-colors duration-200 group"
+                className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors duration-200"
               >
-                <svg className="w-6 h-6 text-gray-600 group-hover:text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
               </button>
+              <div className="h-5 w-px bg-gray-200" />
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  Customize Your Shoe
-                </h1>
-                <p className="text-sm text-gray-600">{product.name} - ${product.price}</p>
+                <h1 className="text-sm font-bold text-gray-900 tracking-tight">{product.name}</h1>
+                <p className="text-[11px] text-gray-400 font-medium">${product.price} &middot; Customizer</p>
               </div>
             </div>
-            
-            {/* Size Change Notice for Customized Shoes */}
+
+            {/* Center — editing badge */}
             {editingCartItem && (
-              <div className="flex items-center space-x-2 bg-amber-50 border border-amber-200 rounded-xl px-4 py-2">
-                <svg className="w-5 h-5 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                </svg>
-                <span className="text-sm text-amber-800 font-medium">You can change the size here for customized shoes</span>
+              <div className="hidden md:flex items-center gap-2 px-3 py-1 bg-amber-50 border border-amber-200/60 rounded-full">
+                <div className="w-1.5 h-1.5 bg-amber-400 rounded-full" />
+                <span className="text-[11px] text-amber-700 font-semibold">Editing cart item</span>
               </div>
             )}
+
+            {/* Right — logo */}
+            <Link href="/" className="flex items-center gap-2">
+              <div className="w-7 h-7 bg-gray-900 rounded-lg flex items-center justify-center">
+                <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <span className="text-sm font-bold text-gray-900 tracking-tight hidden sm:block">Forma</span>
+            </Link>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <div className="relative z-10 flex h-[calc(100vh-4rem)]">
+      <div className="relative z-10 flex h-[calc(100vh-5.5rem)] mt-3 mx-4 sm:mx-6 lg:mx-8 gap-3">
         {/* 3D Viewer */}
-        <div className={`relative bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl overflow-hidden transition-all duration-500 ease-in-out ${
+        <div className={`relative bg-gradient-to-br from-gray-50 to-gray-100/80 rounded-2xl overflow-hidden transition-all duration-500 ease-in-out ${
           showControls ? 'flex-1' : 'flex-[2]'
         }`}>
-          <Scene3D 
-            materials={materialProps} 
-            size={size} 
-            isRotating={isRotating} 
+          <Scene3D
+            materials={materialProps}
+            size={size}
+            isRotating={isRotating}
           />
-          
+
+          {/* Rotation toggle */}
           <button
             type="button"
             onClick={() => setIsRotating(!isRotating)}
-            className={`absolute top-4 right-16 p-3 rounded-xl shadow-lg transition-all duration-300 ease-out hover:shadow-xl transform hover:scale-105 ${
-              isRotating 
-                ? 'bg-blue-600 hover:bg-blue-700 text-white' 
-                : 'bg-white/90 backdrop-blur-sm hover:bg-white text-gray-700'
+            className={`absolute top-4 right-16 p-2.5 rounded-xl shadow-sm transition-all duration-300 ${
+              isRotating
+                ? 'bg-gray-900 text-white hover:bg-gray-800'
+                : 'bg-white/80 backdrop-blur-sm text-gray-600 hover:bg-white border border-gray-200/50'
             }`}
             title={isRotating ? "Stop Rotation" : "Start Rotation"}
           >
             {isRotating ? (
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             ) : (
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M15 14h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             )}
           </button>
 
           {/* 3D Instructions */}
-          <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm text-white px-3 py-2 rounded-lg text-xs">
-            Drag to rotate • Scroll to zoom
+          <div className="absolute bottom-4 left-4 bg-gray-900/70 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-[11px] font-medium">
+            Drag to rotate &middot; Scroll to zoom
           </div>
         </div>
 
-        {/* Controls Panel - Smoother animations */}
-        <div className={`bg-white/95 backdrop-blur-sm border-l border-gray-200/50 shadow-xl transition-all duration-500 ease-in-out transform ${
-          showControls 
-            ? 'w-96 opacity-100 translate-x-0 scale-x-100' 
-            : 'w-0 opacity-0 translate-x-full scale-x-0 overflow-hidden'
+        {/* Controls Panel */}
+        <div className={`bg-white/80 backdrop-blur-xl border border-gray-200/50 rounded-2xl transition-all duration-500 ease-in-out transform ${
+          showControls
+            ? 'w-96 opacity-100 translate-x-0'
+            : 'w-0 opacity-0 translate-x-full overflow-hidden'
         }`}>
-          <div className={`h-full flex flex-col transition-opacity duration-300 ease-in-out ${
+          <div className={`h-full flex flex-col transition-opacity duration-300 ${
             showControls ? 'opacity-100 delay-200' : 'opacity-0'
           }`}>
             {/* Panel Header */}
-            <div className="p-6 border-b border-gray-200/50 bg-gradient-to-r from-blue-50 to-purple-50">
-              <h2 className="text-xl font-bold text-gray-900">Customize</h2>
+            <div className="p-5 border-b border-gray-100">
+              <h2 className="text-lg font-bold text-gray-900 tracking-tight">Customize</h2>
+              <p className="text-xs text-gray-400 mt-0.5">Select a part, then pick colors and materials</p>
             </div>
 
             {/* Scrollable Content */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-6">
+            <div className="flex-1 overflow-y-auto p-5 space-y-6 custom-scrollbar">
               {/* Size Selection */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-                  <svg className="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM7 21h10a2 2 0 002-2v-4a2 2 0 00-2-2H7" />
-                  </svg>
-                  Size Selection
-                </h3>
+              <div className="space-y-3">
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Size</h3>
                 <SizePicker size={size} onChange={setSize} />
               </div>
 
               {/* Part Selection */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-                  <svg className="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
-                  </svg>
-                  Select Part
-                </h3>
-                <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-3">
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Select Part</h3>
+                <div className="grid grid-cols-2 gap-2">
                   {Object.keys(materialProps).map((part) => (
                     <button
                       type="button"
                       key={part}
                       onClick={() => setSelectedPart(part as ShoePart)}
-                      className={`px-4 py-3 rounded-xl font-medium transition-all duration-300 ${
+                      className={`px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
                         selectedPart === part
-                          ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg transform scale-105"
-                          : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-102"
+                          ? "bg-gray-900 text-white shadow-sm"
+                          : "bg-gray-100/80 text-gray-600 hover:bg-gray-200/80"
                       }`}
                     >
                       {part.charAt(0).toUpperCase() + part.slice(1)}
@@ -236,26 +237,24 @@ export default function CustomShoe({
               </div>
 
               {/* Color Customization */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-                  <svg className="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM7 21h10a2 2 0 002-2v-4a2 2 0 00-2-2H7" />
-                  </svg>
-                  Customize {(selectedPart as string).charAt(0).toUpperCase() + (selectedPart as string).slice(1)}
+              <div className="space-y-3">
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest">
+                  {(selectedPart as string).charAt(0).toUpperCase() + (selectedPart as string).slice(1)} Color
                 </h3>
-                
-                <div className="bg-gray-50 rounded-xl p-4 space-y-4">
+
+                <div className="bg-gray-50/80 rounded-xl p-4 space-y-4 border border-gray-100">
                   <ColorPicker
                     color={materialProps[selectedPart].color}
                     onChange={(color) => handleMaterialPropChange(selectedPart, "color", color)}
                   />
 
                   {/* Material Properties */}
-                  <div className="space-y-4">
+                  <div className="space-y-4 pt-2">
                     <div>
-                      <label htmlFor="roughness-slider" className="block text-sm font-medium text-gray-700 mb-2">
-                        Roughness: {materialProps[selectedPart].roughness}
-                      </label>
+                      <div className="flex justify-between text-xs mb-2">
+                        <span className="font-medium text-gray-500">Roughness</span>
+                        <span className="font-semibold text-gray-700">{materialProps[selectedPart].roughness}</span>
+                      </div>
                       <input
                         id="roughness-slider"
                         type="range"
@@ -264,14 +263,15 @@ export default function CustomShoe({
                         step="0.1"
                         value={materialProps[selectedPart].roughness}
                         onChange={(e) => handleMaterialPropChange(selectedPart, "roughness", parseFloat(e.target.value))}
-                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                        className="w-full h-1.5 bg-gray-200 rounded-full appearance-none cursor-pointer slider"
                       />
                     </div>
 
                     <div>
-                      <label htmlFor="metalness-slider" className="block text-sm font-medium text-gray-700 mb-2">
-                        Metalness: {materialProps[selectedPart].metalness}
-                      </label>
+                      <div className="flex justify-between text-xs mb-2">
+                        <span className="font-medium text-gray-500">Metalness</span>
+                        <span className="font-semibold text-gray-700">{materialProps[selectedPart].metalness}</span>
+                      </div>
                       <input
                         id="metalness-slider"
                         type="range"
@@ -280,7 +280,7 @@ export default function CustomShoe({
                         step="0.1"
                         value={materialProps[selectedPart].metalness}
                         onChange={(e) => handleMaterialPropChange(selectedPart, "metalness", parseFloat(e.target.value))}
-                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                        className="w-full h-1.5 bg-gray-200 rounded-full appearance-none cursor-pointer slider"
                       />
                     </div>
                   </div>
@@ -289,18 +289,18 @@ export default function CustomShoe({
             </div>
 
             {/* Action Buttons */}
-            <div className="p-6 border-t border-gray-200/50 bg-gradient-to-r from-blue-50 to-purple-50 space-y-3">
+            <div className="p-5 border-t border-gray-100 space-y-2.5">
               {editingCartItem ? (
-                <div className="space-y-3">
+                <div className="space-y-2.5">
                   <button
                     type="button"
                     onClick={handleUpdateExisting}
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3.5 rounded-xl font-semibold text-sm shadow-sm transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={showUpdatedMessage}
                   >
                     {showUpdatedMessage ? (
-                      <span className="flex items-center justify-center">
-                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <span className="flex items-center justify-center gap-2">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
                         Updated!
@@ -312,12 +312,12 @@ export default function CustomShoe({
                   <button
                     type="button"
                     onClick={handleAddAsNew}
-                    className="w-full border-2 border-blue-600 text-blue-600 hover:bg-blue-50 py-4 rounded-xl font-semibold text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-white border border-gray-200 text-gray-700 hover:border-gray-300 hover:bg-gray-50 py-3.5 rounded-xl font-semibold text-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={showAddedMessage}
                   >
                     {showAddedMessage ? (
-                      <span className="flex items-center justify-center">
-                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <span className="flex items-center justify-center gap-2">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
                         Added!
@@ -331,20 +331,20 @@ export default function CustomShoe({
                 <button
                   type="button"
                   onClick={handleAddAsNew}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3.5 rounded-xl font-semibold text-sm shadow-sm transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={showAddedMessage}
                 >
                   {showAddedMessage ? (
-                    <span className="flex items-center justify-center">
-                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <span className="flex items-center justify-center gap-2">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                       Added to Cart!
                     </span>
                   ) : (
-                    <span className="flex items-center justify-center">
-                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5H19M7 13v8a2 2 0 002 2h6a2 2 0 002-2v-8m-8 0V9a2 2 0 012-2h4a2 2 0 012 2v4.01" />
+                    <span className="flex items-center justify-center gap-2">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                       </svg>
                       Add to Cart
                     </span>
@@ -355,25 +355,22 @@ export default function CustomShoe({
           </div>
         </div>
 
-        {/* Settings Button - Smoother positioning */}
+        {/* Toggle Panel Button */}
         <button
           type="button"
           onClick={() => setShowControls(!showControls)}
-          className={`absolute top-4 right-4 bg-white/90 backdrop-blur-sm hover:bg-white text-gray-700 p-3 rounded-xl shadow-lg transition-all duration-300 ease-out hover:shadow-xl transform hover:scale-105 z-20`}
+          className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm hover:bg-white text-gray-600 p-2.5 rounded-xl shadow-sm border border-gray-200/50 transition-all duration-300 z-20"
           title={showControls ? "Hide Controls" : "Show Controls"}
         >
-          <div className={`transition-transform duration-300 ease-in-out ${showControls ? 'rotate-0' : 'rotate-180'}`}>
-            {showControls ? (
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-            )}
-          </div>
+          {showControls ? (
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          ) : (
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+            </svg>
+          )}
         </button>
       </div>
     </div>
