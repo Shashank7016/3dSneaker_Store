@@ -457,3 +457,46 @@ input:focus, select:focus, textarea:focus {
 .visible .bento-tracker {
   width: 100%;
 }
+
+/* ===== How It Works Steps ===== */
+.hiw-illustration {
+  position: relative;
+  height: 220px;
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  overflow: hidden;
+  transition: box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hiw-card:hover .hiw-illustration {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+.hiw-number {
+  position: absolute;
+  top: -14px;
+  right: 12px;
+  font-size: 7rem;
+  font-weight: 900;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  letter-spacing: -0.05em;
+}
+
+.hiw-card {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hiw-card:hover {
+  transform: translateY(-8px);
+}
+
+/* Stagger the reveal of each step card */
+.hiw-grid > .reveal:nth-child(2) {
+  transition-delay: 0.12s;
+}
+
+.hiw-grid > .reveal:nth-child(3) {
+  transition-delay: 0.24s;
+}

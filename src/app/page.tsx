@@ -298,42 +298,154 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== How It Works ===== */}
-      <section id="how-it-works" className="py-20 sm:py-24 bg-gray-900 relative overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-80 h-80 bg-indigo-500/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-violet-500/5 rounded-full blur-3xl" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="reveal text-center mb-16">
-            <span className="eyebrow inline-block px-4 py-1.5 bg-white/10 text-indigo-300 rounded-full mb-5">
-              How It Works
-            </span>
-            <h2 className="section-heading text-white">Three simple steps</h2>
-            <p className="section-subheading text-gray-400 mt-4">
-              From browsing to doorstep — designing your dream shoes has never been easier
-            </p>
+      {/* ===== How It Works — Horizontal Steps ===== */}
+      <section id="how-it-works" className="py-24 sm:py-32 bg-white relative overflow-hidden border-t border-gray-100">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="reveal text-center mb-16 sm:mb-20">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 rounded-full mb-6">
+              <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+              <span className="text-[11px] font-semibold text-white uppercase tracking-widest">How It Works</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight leading-[1.1]">
+              Three steps to your<br />
+              <span className="text-gray-300">perfect pair</span>
+            </h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            {[
-              { step: "01", title: "Choose Your Base", desc: "Pick from our curated collection of premium shoe models designed for every lifestyle." },
-              { step: "02", title: "Customize in 3D", desc: "Use our interactive editor to change colors, materials, and details on every part." },
-              { step: "03", title: "Place Your Order", desc: "Happy with your design? Add to cart and checkout. We handle the rest." },
-            ].map((item) => (
-              <div key={item.step} className="reveal-scale text-center group">
-                <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-xl flex items-center justify-center text-white font-bold text-sm mx-auto mb-5 group-hover:scale-105 transition-transform duration-300 shadow-lg shadow-indigo-500/15">
-                  {item.step}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 hiw-grid">
+            {/* Step 1 — Browse */}
+            <div className="reveal hiw-card group">
+              <div className="hiw-illustration bg-gradient-to-br from-amber-50 via-orange-50/80 to-yellow-50/60">
+                <span className="hiw-number text-amber-200/50 group-hover:text-amber-300/60 transition-colors duration-500">01</span>
+                {/* Three stacked shoe cards — collection feel */}
+                <div className="relative z-10 flex items-center justify-center h-full">
+                  <div className="relative w-48 h-36">
+                    {/* Back card */}
+                    <div className="absolute top-0 left-6 w-32 h-28 bg-white/70 rounded-xl shadow-sm border border-amber-100/60 overflow-hidden group-hover:rotate-[-6deg] group-hover:-translate-x-2 transition-all duration-500">
+                      <svg className="w-full h-full p-4 text-amber-300" viewBox="0 0 180 100" fill="currentColor">
+                        <path d="M20 68 C20 55, 32 32, 60 24 C75 20, 95 20, 115 26 C133 32, 148 44, 158 55 L163 63 C164 66, 165 68, 165 68 L20 68Z" opacity="0.5" />
+                        <rect x="12" y="68" width="160" height="10" rx="5" opacity="0.7" />
+                        <path d="M48 58 C63 45, 88 38, 128 42" stroke="white" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.6" />
+                      </svg>
+                    </div>
+                    {/* Middle card */}
+                    <div className="absolute top-4 left-3 w-32 h-28 bg-white/80 rounded-xl shadow-sm border border-amber-100/60 overflow-hidden group-hover:rotate-[-2deg] group-hover:-translate-x-1 transition-all duration-500 delay-75">
+                      <svg className="w-full h-full p-4 text-orange-300" viewBox="0 0 180 100" fill="currentColor">
+                        <path d="M20 68 C20 55, 32 32, 60 24 C75 20, 95 20, 115 26 C133 32, 148 44, 158 55 L163 63 C164 66, 165 68, 165 68 L20 68Z" opacity="0.5" />
+                        <rect x="12" y="68" width="160" height="10" rx="5" opacity="0.7" />
+                        <path d="M48 58 C63 45, 88 38, 128 42" stroke="white" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.6" />
+                      </svg>
+                    </div>
+                    {/* Front card — selected */}
+                    <div className="absolute top-8 left-0 w-32 h-28 bg-white rounded-xl shadow-md border-2 border-amber-400 overflow-hidden group-hover:rotate-[2deg] group-hover:translate-x-1 group-hover:scale-105 transition-all duration-500 delay-100">
+                      <svg className="w-full h-full p-4 text-amber-500" viewBox="0 0 180 100" fill="currentColor">
+                        <path d="M20 68 C20 55, 32 32, 60 24 C75 20, 95 20, 115 26 C133 32, 148 44, 158 55 L163 63 C164 66, 165 68, 165 68 L20 68Z" opacity="0.6" />
+                        <rect x="12" y="68" width="160" height="10" rx="5" opacity="0.8" />
+                        <path d="M48 58 C63 45, 88 38, 128 42" stroke="white" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.7" />
+                        <circle cx="70" cy="38" r="2.5" fill="white" opacity="0.7" />
+                        <circle cx="82" cy="34" r="2.5" fill="white" opacity="0.7" />
+                        <circle cx="94" cy="32" r="2.5" fill="white" opacity="0.7" />
+                      </svg>
+                      {/* Selection check */}
+                      <div className="absolute top-2 right-2 w-5 h-5 bg-amber-400 rounded-full flex items-center justify-center">
+                        <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="card-title text-white mb-2">{item.title}</h3>
-                <p className="card-body text-gray-400">{item.desc}</p>
               </div>
-            ))}
+              <div className="pt-5 px-1">
+                <h3 className="text-lg font-bold text-gray-900 mb-1.5 tracking-tight">Browse &amp; Pick</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">Explore our curated collection of premium shoe models, each crafted for a different lifestyle.</p>
+              </div>
+            </div>
+
+            {/* Step 2 — Customize */}
+            <div className="reveal hiw-card group">
+              <div className="hiw-illustration bg-gradient-to-br from-indigo-50 via-violet-50/80 to-blue-50/60">
+                <span className="hiw-number text-indigo-200/50 group-hover:text-indigo-300/60 transition-colors duration-500">02</span>
+                <div className="relative z-10 flex items-center justify-center h-full">
+                  <div className="relative">
+                    {/* Main shoe — multi-colored to show customization */}
+                    <svg className="w-52 h-32 drop-shadow-md group-hover:drop-shadow-lg transition-all duration-500" viewBox="0 0 220 120" fill="none">
+                      {/* Sole — yellow */}
+                      <rect x="15" y="82" rx="8" width="190" height="14" fill="#f59e0b" opacity="0.7" className="group-hover:opacity-85 transition-opacity duration-400" />
+                      {/* Midsole */}
+                      <rect x="20" y="74" rx="4" width="182" height="10" fill="#fbbf24" opacity="0.4" />
+                      {/* Upper body — indigo */}
+                      <path d="M28 74 C28 58, 42 34, 75 25 C92 20, 115 20, 138 27 C158 33, 174 47, 184 58 L190 68 C191 71, 192 74, 192 74 L28 74Z" fill="#6366f1" opacity="0.55" className="group-hover:opacity-70 transition-opacity duration-400" />
+                      {/* Toe cap — pink */}
+                      <path d="M28 74 C28 65, 34 48, 52 38 C62 32, 72 28, 78 26 L75 25 C55 28, 38 42, 28 60 Z" fill="#ec4899" opacity="0.45" className="group-hover:opacity-60 transition-opacity duration-400" />
+                      {/* Heel — purple */}
+                      <path d="M178 55 L190 68 C191 71, 192 74, 192 74 L182 74 C182 70, 180 62, 178 55Z" fill="#8b5cf6" opacity="0.5" className="group-hover:opacity-65 transition-opacity duration-400" />
+                      {/* Swoosh stripe — emerald */}
+                      <path d="M55 64 C72 50, 105 42, 150 47 C165 49, 175 55, 180 59" stroke="#10b981" strokeWidth="3.5" fill="none" strokeLinecap="round" opacity="0.6" className="group-hover:opacity-80 transition-opacity duration-400" />
+                      {/* Tongue */}
+                      <path d="M72 28 C75 16, 86 8, 104 5 C120 3, 126 7, 124 20 L118 28" fill="#818cf8" opacity="0.35" />
+                      {/* Lace dots */}
+                      <circle cx="84" cy="34" r="2.5" fill="white" opacity="0.6" />
+                      <circle cx="96" cy="30" r="2.5" fill="white" opacity="0.6" />
+                      <circle cx="108" cy="28" r="2.5" fill="white" opacity="0.6" />
+                    </svg>
+                    {/* Floating color labels */}
+                    <div className="absolute -top-1 -right-2 px-2 py-0.5 bg-white/90 rounded-md shadow-sm text-[10px] font-semibold text-indigo-500 opacity-0 group-hover:opacity-100 group-hover:-translate-y-1 transition-all duration-400 delay-100">Mesh</div>
+                    <div className="absolute top-6 -left-4 px-2 py-0.5 bg-white/90 rounded-md shadow-sm text-[10px] font-semibold text-pink-500 opacity-0 group-hover:opacity-100 group-hover:-translate-x-1 transition-all duration-400 delay-200">Toe Cap</div>
+                    <div className="absolute bottom-8 -right-3 px-2 py-0.5 bg-white/90 rounded-md shadow-sm text-[10px] font-semibold text-emerald-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-400 delay-150">Swoosh</div>
+                  </div>
+                </div>
+              </div>
+              <div className="pt-5 px-1">
+                <h3 className="text-lg font-bold text-gray-900 mb-1.5 tracking-tight">Customize in 3D</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">Change colors, materials, and textures on every part. Watch your creation come alive in real-time.</p>
+              </div>
+            </div>
+
+            {/* Step 3 — Order */}
+            <div className="reveal hiw-card group">
+              <div className="hiw-illustration bg-gradient-to-br from-emerald-50 via-teal-50/80 to-green-50/60">
+                <span className="hiw-number text-emerald-200/50 group-hover:text-emerald-300/60 transition-colors duration-500">03</span>
+                <div className="relative z-10 flex items-center justify-center h-full">
+                  <div className="relative">
+                    {/* Shoe in box */}
+                    <svg className="w-44 h-28 drop-shadow-sm" viewBox="0 0 200 130" fill="none">
+                      {/* Box back */}
+                      <rect x="20" y="55" width="160" height="60" rx="6" fill="#d1fae5" stroke="#6ee7b7" strokeWidth="1" />
+                      {/* Box flap left */}
+                      <path d="M20 55 L60 40 L60 55 Z" fill="#a7f3d0" stroke="#6ee7b7" strokeWidth="1" />
+                      {/* Box flap right */}
+                      <path d="M180 55 L140 40 L140 55 Z" fill="#a7f3d0" stroke="#6ee7b7" strokeWidth="1" />
+                      {/* Tissue paper */}
+                      <path d="M35 55 C50 48, 70 52, 85 46 C100 40, 115 44, 130 42 C145 40, 155 46, 165 55" fill="white" opacity="0.6" />
+                      {/* Shoe peeking out */}
+                      <path d="M45 52 C45 42, 55 26, 78 20 C90 17, 105 17, 120 22 C135 26, 148 36, 155 44 L158 50 C159 52, 160 53, 160 54 L45 54Z" fill="#6366f1" opacity="0.45" className="group-hover:opacity-60 group-hover:-translate-y-2 transition-all duration-500" />
+                      <path d="M38 54 L160 54 C161 54, 162 55, 162 56 L162 59 C162 60, 161 61, 160 61 L38 61 C37 61, 36 60, 36 59 L36 56 C36 55, 37 54, 38 54Z" fill="#818cf8" opacity="0.4" className="group-hover:-translate-y-2 transition-all duration-500" />
+                      <path d="M70 44 C82 35, 105 30, 138 34" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.5" className="group-hover:-translate-y-2 transition-all duration-500" />
+                    </svg>
+                    {/* Delivery badge */}
+                    <div className="absolute -bottom-2 right-0 flex items-center gap-1.5 px-2.5 py-1 bg-white/90 rounded-full shadow-sm group-hover:shadow-md transition-all duration-400">
+                      <div className="w-4 h-4 rounded-full bg-emerald-400 flex items-center justify-center">
+                        <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <span className="text-[10px] text-emerald-600 font-semibold">3–5 days</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="pt-5 px-1">
+                <h3 className="text-lg font-bold text-gray-900 mb-1.5 tracking-tight">We Deliver</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">Sit back while we handcraft your design. From our studio to your doorstep in 3–5 business days.</p>
+              </div>
+            </div>
           </div>
 
-          <div className="reveal text-center mt-14">
+          <div className="reveal text-center mt-16 sm:mt-20">
             <Link
               href="/store"
-              className="btn-text bg-white text-gray-900 px-8 py-3 rounded-lg hover:bg-gray-50 transition-colors duration-200 shadow-lg inline-block"
+              className="btn-premium btn-text text-white px-8 py-3.5 rounded-xl inline-block"
             >
               Start Designing Now
             </Link>
